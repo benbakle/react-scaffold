@@ -1,0 +1,31 @@
+@import '../toolbox/media-queries.scss';
+
+:root {
+    font-size: 62.5%;
+}
+
+body{
+    margin:0;
+}
+
+.app {
+    background-color: #282c34;
+    min-height: 100vh;
+    font-size: 2.4rem;
+    color: white;
+    font-family: "Lato", sans-serif;
+}
+
+a{
+    color:white;
+    font-weight: 100;
+    text-decoration: none;
+}
+
+.heading{
+    font-size:3.2rem;
+
+    @include tablet{
+        font-size:4.5rem;
+    }
+}
