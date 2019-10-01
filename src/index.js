@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './assets/css/toolbox/typography.scss';
 import './assets/css/toolbox/media-queries.scss';
+import './assets/css/toolbox/form-controls.scss';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 

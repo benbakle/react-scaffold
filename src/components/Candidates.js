@@ -1,8 +1,8 @@
 import React from 'react';
-import './../assets/css/components/candidate.scss';
+import './../assets/css/components/candidates.scss';
 import Api from '../services/api';
 
-export default class Candidate extends React.Component {
+export default class Candidates extends React.Component {
   constructor(props) {
     super(props);
     this.state = { candidates: null }
@@ -35,7 +35,7 @@ export default class Candidate extends React.Component {
   render() {
     const { candidates } = this.state;
     return (
-      <div className="candidate">
+      <div className="candidates">
         <div className="heading">Candidates</div>
         {
           candidates && candidates.length > 1 && candidates.map((item, key) =>

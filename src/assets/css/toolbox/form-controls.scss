@@ -1,0 +1,53 @@
+@import '../toolbox/mixins.scss';
+@import '../toolbox/media-queries.scss';
+
+input,
+textarea,
+select,
+button {
+    font-weight: 700;
+    font-size:1.6rem;
+    @include tablet{
+        font-size: 2.4rem;
+    }
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    box-sizing: border-box;
+    margin: 1rem 0;
+    color: #282C34;
+}
+
+label {
+    display: block;
+    font-size: 1.6rem;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+button {
+    background-color: transparent;
+    border: .3rem solid #fff;
+    padding: 1rem 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    color:white;
+    margin:3rem 0;
+    transition-duration: .5s;
+    border-radius: .2rem;
+    cursor: pointer;
+
+    @include states{
+        background-color: white;
+        color:#282C34;
+    }
+}
+.control-wrapper:not(:last-child){
+    margin-bottom: 1.5rem;
+}
