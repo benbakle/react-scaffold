@@ -11,7 +11,7 @@
 
 .navigation-trigger {
     position: relative;
-    height: 75px;
+    height: 7.5rem;
     box-sizing: border-box;
     transition-duration: .5s;
     background-color: rgba(white, .1);
@@ -30,15 +30,15 @@
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    top: -75px;
+    top: -7.5rem;
     width: 100%;
-    max-width: 768px;
+    max-width: 76.8rem;
     left: 50%;
     transform: translateX(-50%);
     margin: 0 auto;
     height: 100%;
     transition-duration: .5s;
-    padding: 10px;
+    padding: 1rem;
     box-sizing: border-box;
 
     ul {
@@ -50,7 +50,7 @@
     }
 
     a {
-        letter-spacing: 2px;
+        letter-spacing: .2rem;
         font-weight: 700;
         color: #282C34;
         font-size: 1.6rem;

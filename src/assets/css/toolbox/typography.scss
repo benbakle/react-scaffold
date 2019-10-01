@@ -22,7 +22,7 @@ a {
 
 }
 
-.tt-body {
+.app-body {
     padding:0 1rem;
     box-sizing: border-box;
 
@@ -38,4 +38,8 @@ a {
     @include tablet {
         font-size: 4.5rem;
     }
+}
+
+.record-count{
+
 }

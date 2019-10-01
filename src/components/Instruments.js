@@ -13,29 +13,25 @@ export default class Instruments extends React.Component {
   }
 
   componentDidMount() {
-    this.populateInstruments();
+    this.fetch();
   }
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  update = () => {
-    this.populateInstruments();
-  }
-
-  populateInstruments = () => {
+  fetch = () => {
     Api.fetch(`${this.state.tenantExternalId}/instrument`)
-      .then(this.loadCandidates)
+      .then(this.load)
   }
 
-  loadCandidates = (res) => {
-    this.setState({ candidates: res })
+  load = (data) => {
+    this.setState({ instruments: data })
   }
 
   render() {
     const { instruments, tenantExternalId } = this.state;
-    const { handleChange, update } = this;
+    const { handleChange, fetch } = this;
 
     return (
       <div className="instruments">
@@ -49,7 +45,7 @@ export default class Instruments extends React.Component {
         </div>
 
         <div className="submit">
-          <button onClick={update}>Update</button>
+          <button onClick={fetch}>Update</button>
         </div>
 
         {
@@ -61,9 +57,11 @@ export default class Instruments extends React.Component {
         }
 
         {
-          instruments && instruments.map((item, key) =>
-            <div key={key}>{item.id}</div>
-          )
+          <ul>
+            {instruments && instruments.map((item, key) =>
+              <li key={key}>{item.id}</li>
+            )}
+          </ul>
         }
 
       </div>

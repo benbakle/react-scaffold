@@ -11,7 +11,7 @@ function App() {
       <Router history={History}>
         <Navigation />
 
-        <div className="tt-body">
+        <div className="app-body">
           <Route exact path='/' component={Instruments} />
           <Route exact path='/instrument' component={Instruments} />
           <Route exact path='/candidate' component={Candidates} />
