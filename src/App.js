@@ -4,8 +4,12 @@ import History from './services/history';
 import Navigation from './components/Navigation';
 import Candidates from './components/Candidates';
 import Instruments from './components/Instruments';
+//import api from './services/api';
 
 function App() {
+
+ //api.fetchAndStoreToken();
+
   return (
     <div className="app">
       <Router history={History}>

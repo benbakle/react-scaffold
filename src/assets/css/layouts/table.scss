@@ -1,24 +1,50 @@
-.table {
-    margin: 3rem 0;
+@import "../toolbox/mixins.scss";
+@import "../toolbox/media-queries.scss";
 
-    .table-head,
-    .table-row {
-        display: flex;
+.table {
+  margin-top: 3rem;
+
+  .table-head,
+  .table-row {
+    display: flex;
+  }
+
+  .table-head {
+  }
+
+  .table-row {
+    @include states {
+      .table-cell {
+        background-color: rgba(white, 0.2);
+      }
     }
 
-    .table-head {}
+    &:nth-child(even) {
+      .table-cell {
+        background-color: rgba(white, 0.05);
+      }
 
-    .table-row {
+      @include states {
         .table-cell {
-            border-left: .1rem solid rgba(white, .5);
-            border-right: .1rem solid rgba(white, .5);
+          background-color: rgba(white, 0.2);
         }
+      }
     }
 
     .table-cell {
-        display: flex;
-        align-items: center;
-        padding: 1rem;
-        border-bottom: .1rem solid rgba(white, .5);
+      transition-duration: 0.5s;
+      border-left: 0.1rem solid rgba(white, 0.5);
+      border-right: 0.1rem solid rgba(white, 0.5);
     }
+  }
+
+  .table-cell {
+    padding: 1rem;
+    border-bottom: 0.1rem solid rgba(white, 0.5);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 300;
+    font-size: 1.6rem;
+  }
 }
