@@ -1,6 +1,8 @@
 import React from 'react';
 import './../assets/css/components/instruments.scss';
+import './../assets/css/layouts/table.scss';
 import Api from '../services/api';
+import RecordCount from './RecordCount';
 
 export default class Instruments extends React.Component {
   constructor(props) {
@@ -8,12 +10,12 @@ export default class Instruments extends React.Component {
 
     this.state = {
       tenantExternalId: '13c8c297-7e47-43f7-a1c1-d9f3ab92378e',
-      instruments: null,
+      instruments: [{ id: 1, name: "Ben" }, { id: 2, name: "Ben" }],
     }
   }
 
   componentDidMount() {
-    this.fetch();
+    //this.fetch();
   }
 
   handleChange = (e) => {
@@ -40,7 +42,7 @@ export default class Instruments extends React.Component {
         <div className="entry">
           <div className="control-wrapper">
             <label>Tenant ID: </label>
-            <input type="text" value={tenantExternalId} onChange={handleChange} name="tenantExternalId"></input>
+            <input type="text" value={tenantExternalId} onChange={handleChange} name="tenantExternalId" />
           </div>
         </div>
 
@@ -48,20 +50,21 @@ export default class Instruments extends React.Component {
           <button onClick={fetch}>Update</button>
         </div>
 
-        {
-          instruments &&
-          <div className="record-count">
-            <label>record count:</label>
-            {instruments.length}
-          </div>
-        }
+        {instruments && <RecordCount count={instruments.length} />}
 
         {
-          <ul>
+          <div className="table">
+            <div className="table-head">
+              <div className="table-cell"><label>Id</label></div>
+              <div className="table-cell"><label>Name</label></div>
+            </div>
             {instruments && instruments.map((item, key) =>
-              <li key={key}>{item.id}</li>
+              <div className="table-row" key={key}>
+                <div className="table-cell">{item.id}</div>
+                <div className="table-cell">{item.name}</div>
+              </div>
             )}
-          </ul>
+          </div>
         }
 
       </div>

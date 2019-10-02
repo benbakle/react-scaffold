@@ -1,0 +1,24 @@
+.table {
+    margin: 3rem 0;
+
+    .table-head,
+    .table-row {
+        display: flex;
+    }
+
+    .table-head {}
+
+    .table-row {
+        .table-cell {
+            border-left: .1rem solid rgba(white, .5);
+            border-right: .1rem solid rgba(white, .5);
+        }
+    }
+
+    .table-cell {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: .1rem solid rgba(white, .5);
+    }
+}
