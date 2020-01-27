@@ -1,8 +1,8 @@
 import React from 'react';
 import { Router, Route } from "react-router-dom";
 import History from './services/history';
-import Context from './components/Context';
-import { ThemeContextProvider, ThemeContextConsumer } from './app-context/themeContext';
+import Context from './components/ThemeToggle';
+import { ThemeContextProvider, ThemeContextConsumer } from './contexts/themes';
 
 export default function App() {
   return (

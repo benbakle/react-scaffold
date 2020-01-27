@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeContextConsumer } from '../app-context/themeContext';
+import { ThemeContextConsumer } from './../contexts/themes';
 
 export default function Button(props) {
     return (

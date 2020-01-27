@@ -1,22 +1,15 @@
 import React from 'react';
-import { ThemeContextConsumer } from '../app-context/themeContext';
+import { ThemeContextConsumer } from '../contexts/themes';
 import Button from './Button';
 
-export default function Context() {
-
-    const themeElement = theme => {
-        return (
-            <span className="uppercase">{theme}</span>
-        )
-    }
-
+export default function ThemeToggle() {
     return (
         <ThemeContextConsumer>
             {({ theme }) => (
                 <>
                     <Button />
                     <div className="heading">
-                        Currently using the {themeElement(theme)} theme
+                        Currently using the <span className="uppercase">{theme}</span> theme
                     </div>
                 </>
             )}
