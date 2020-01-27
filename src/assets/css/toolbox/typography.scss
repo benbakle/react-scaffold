@@ -15,22 +15,24 @@ a {
 }
 
 .app {
-    background-color: #282c34;
+    transition-property: background, color;
+    transition-duration: .3s;
     min-height: 100vh;
-    color: white;
     font-family: "Lato", sans-serif;
 
+    &.theme-light {
+        color: #282c34;
+    }
+
+    &.theme-dark {
+        background-color: #282c34;
+        color: white;
+    }
 }
 
-.app-body {
-    padding: 0 1rem;
-    box-sizing: border-box;
-    font-size: 1.6rem;
-
-    @include tablet {
-        padding: 0 5rem;
-        font-size: 1.8rem;
-    }
+.container {
+    max-width: 160rem;
+    margin: 0 auto;
 }
 
 .heading {
@@ -41,5 +43,6 @@ a {
         font-size: 4.5rem;
     }
 }
-
-.record-count {}
+.uppercase{
+    text-transform: uppercase;
+}

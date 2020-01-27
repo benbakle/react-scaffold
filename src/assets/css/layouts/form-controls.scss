@@ -7,6 +7,7 @@ select,
 button {
   font-weight: 700;
   font-size: 1.6rem;
+
   @include tablet {
     font-size: 2.4rem;
   }
@@ -32,20 +33,34 @@ label {
 
 button {
   background-color: transparent;
-  border: 0.3rem solid #fff;
+  border: 0.3rem solid #282c34;
   padding: 1rem 2rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
-  color: white;
   margin: 3rem 0;
   transition-duration: 0.5s;
   border-radius: 0.2rem;
   cursor: pointer;
 
-  @include states {
-    background-color: white;
+  @include theme(".theme-light") {
     color: #282c34;
+    background-color: white;
+
+    @include states {
+      color: white;
+      background-color: #282c34;
+    }
+  }
+
+  @include theme(".theme-dark") {
+    color: white;
+    background-color: #282c34;
+
+    @include states {
+      color: #282c34;
+      background-color: white;
+    }
   }
 
   &.small {
@@ -53,7 +68,7 @@ button {
     font-size: 1.2rem;
     font-weight: 300;
     border: 0.1rem solid white;
-    padding:.5rem 1rem;
+    padding: .5rem 1rem;
   }
 }
 

@@ -1,30 +1,23 @@
 import React from 'react';
 import { Router, Route } from "react-router-dom";
 import History from './services/history';
-import Navigation from './components/Navigation';
-import Candidates from './components/Candidates';
-import Instruments from './components/Instruments';
-//import api from './services/api';
+import Context from './components/Context';
+import { ThemeContextProvider, ThemeContextConsumer } from './app-context/themeContext';
 
-function App() {
-
- //api.fetchAndStoreToken();
-
+export default function App() {
   return (
-    <div className="app">
-      <Router history={History}>
-        <Navigation />
-
-        <div className="app-body">
-          <Route exact path='/' component={Instruments} />
-          <Route exact path='/instrument' component={Instruments} />
-          <Route exact path='/candidate' component={Candidates} />
-
-        </div>
-
-      </Router>
-    </div>
+    <ThemeContextProvider>
+      <ThemeContextConsumer>
+        {({ theme }) => (
+          <div className={`app theme-${theme}`}>
+            <div className="container">
+              <Router history={History}>
+                <Route exact path='/' component={Context} />
+              </Router>
+            </div>
+          </div>
+        )}
+      </ThemeContextConsumer>
+    </ThemeContextProvider>
   );
 }
-
-export default App;
