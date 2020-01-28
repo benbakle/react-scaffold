@@ -27,6 +27,7 @@ describe("The Button component", () => {
 
     describe('when the toggle button is clicked', () => {
         it('calls to toggle theme', () => {
+            _toggleThemeHasBeenCalled = false;
             _component.find("button").simulate("click");
             expect(_toggleThemeHasBeenCalled).toBeTruthy();
         });
