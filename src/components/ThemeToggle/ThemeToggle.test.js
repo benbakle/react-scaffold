@@ -13,18 +13,16 @@ const _component = mount(
     </ThemeContext.Provider>
 );
 
-console.log(_component.html());
-
 describe("The Theme Toggle component", () => {
     it('should match the snapshot', () => {
         expect(_component.html()).toMatchSnapshot();
-      });
+    });
 
     it('has a toggle button', () => {
         expect(_component.find("Button").length).toEqual(1)
     });
 
-    it("has a heading with the selected context", ()=>{
+    it("has a heading with the selected context", () => {
         expect(_component.find(".heading").text()).toEqual("Currently using the duh theme")
-    })
+    });
 });

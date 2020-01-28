@@ -14,11 +14,7 @@ function ThemeContextProvider(props) {
         toggleTheme: !!props.value && props.value.toggleTheme || toggleTheme,
     };
 
-    return (
-        <Provider value={_value}>
-            {props.children}
-        </Provider>
-    )
+    return (<Provider value={_value}>{props.children}</Provider>)
 }
 
 const ThemeContext = { Provider: ThemeContextProvider, Consumer };
