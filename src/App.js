@@ -1,23 +1,23 @@
 import React from 'react';
 import { Router, Route } from "react-router-dom";
 import History from './services/history';
-import Context from './components/ThemeToggle';
-import { ThemeContextProvider, ThemeContextConsumer } from './contexts/themes';
+import ThemeContext  from './contexts/themes';
+import { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
 
 export default function App() {
   return (
-    <ThemeContextProvider>
-      <ThemeContextConsumer>
+    <ThemeContext.Provider>
+      <ThemeContext.Consumer>
         {({ theme }) => (
           <div className={`app theme-${theme}`}>
             <div className="container">
               <Router history={History}>
-                <Route exact path='/' component={Context} />
+                <Route exact path='/' component={ThemeToggle} />
               </Router>
             </div>
           </div>
         )}
-      </ThemeContextConsumer>
-    </ThemeContextProvider>
+      </ThemeContext.Consumer>
+    </ThemeContext.Provider>
   );
 }

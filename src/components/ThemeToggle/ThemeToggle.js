@@ -1,10 +1,10 @@
 import React from 'react';
-import { ThemeContextConsumer } from '../contexts/themes';
-import Button from './Button';
+import ThemeContext from '../../contexts/themes';
+import Button from '../Button';
 
-export default function ThemeToggle() {
+export function ThemeToggle() {
     return (
-        <ThemeContextConsumer>
+        <ThemeContext.Consumer>
             {({ theme }) => (
                 <>
                     <Button />
@@ -13,6 +13,6 @@ export default function ThemeToggle() {
                     </div>
                 </>
             )}
-        </ThemeContextConsumer>
+        </ThemeContext.Consumer>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ThemeContextConsumer } from './../contexts/themes';
+import  ThemeContext  from './../contexts/themes';
 
 export default function Button(props) {
     const [count, setCount] = useState(0);
@@ -13,7 +13,7 @@ export default function Button(props) {
     }
 
     return (
-        <ThemeContextConsumer>
+        <ThemeContext.Consumer>
             {({ theme, toggleTheme }) => (
                 <button onClick={() => { checkToggle(toggleTheme) }}>
                     <span>Toggle to </span>
@@ -24,6 +24,6 @@ export default function Button(props) {
                     }
                 </button>
             )}
-        </ThemeContextConsumer>
+        </ThemeContext.Consumer>
     );
 }
