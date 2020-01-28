@@ -16,7 +16,6 @@ const _component = mount(
 console.log(_component.html());
 
 describe("The Theme Toggle component", () => {
-
     it('should match the snapshot', () => {
         expect(_component.html()).toMatchSnapshot();
       });

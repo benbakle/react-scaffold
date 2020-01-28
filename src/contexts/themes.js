@@ -11,7 +11,7 @@ function ThemeContextProvider(props) {
 
     const _value = {
         theme: !!props.value && props.value.theme || theme,
-        toggleTheme
+        toggleTheme: !!props.value && props.value.toggleTheme || toggleTheme,
     };
 
     return (
