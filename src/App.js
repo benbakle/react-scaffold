@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route } from "react-router-dom";
 import History from './services/history';
-import ThemeContext  from './contexts/themes';
+import ThemeContext from './contexts/themes';
 import { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
 
 export default function App() {
