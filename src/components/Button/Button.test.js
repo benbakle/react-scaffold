@@ -7,12 +7,7 @@ describe("The Button component", () => {
     let _component, _toggleThemeHasBeenCalled;
 
     beforeEach(() => {
-        jest.resetModules();
         setComponentWithContext("light");
-    });
-
-    it('should match the light theme snapshot', () => {
-        expect(_component.html()).toMatchSnapshot();
     });
 
     it('has a toggle button', () => {
@@ -34,10 +29,6 @@ describe("The Button component", () => {
     });
 
     describe('when the context theme is dark', () => {
-        it('should match the dark theme snapshot', () => {
-            expect(_component.html()).toMatchSnapshot();
-        });
-
         it("the toggle button shows the sun icon", () => {
             setComponentWithContext("dark");
             expect(_component.find('button [aria-label="sun"]').length).toBe(1);

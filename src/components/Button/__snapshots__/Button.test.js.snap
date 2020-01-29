@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`The Button component should match the light theme snapshot 1`] = `"<button><span>Toggle to </span><span role=\\"img\\" aria-label=\\"moon\\">🌚</span></button>"`;
-
-exports[`The Button component when the context theme is dark should match the dark theme snapshot 1`] = `"<button><span>Toggle to </span><span role=\\"img\\" aria-label=\\"moon\\">🌚</span></button>"`;

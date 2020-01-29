@@ -14,9 +14,9 @@ const _component = mount(
 );
 
 describe("The Theme Toggle component", () => {
-    it('should match the snapshot', () => {
-        expect(_component.html()).toMatchSnapshot();
-    });
+    // it('should match the snapshot', () => {
+    //     expect(_component.html()).toMatchSnapshot();
+    // });
 
     it('has a toggle button', () => {
         expect(_component.find("Button").length).toEqual(1)
