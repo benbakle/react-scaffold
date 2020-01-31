@@ -4,8 +4,8 @@ import AuthenticationContext from './authentication-context';
 import authenticationService from './authentication-service';
 
 function Login() {
-    const handleLogin = (user, setUser) => {
-        authenticationService.authenticate(user);
+    const handleLogin = (res, setUser) => {
+        authenticationService.authenticate(res);
         console.log(authenticationService);
         setUser(authenticationService);
     }
@@ -14,15 +14,20 @@ function Login() {
         <AuthenticationContext.Consumer>
             {({ user, setUser }) => (
                 <>
-                    {user && !user.isAuthenticated() &&
+                    {!user.isAuthenticated() &&
                         <FacebookLogin
                             appId="211952919854909"
                             autoLoad={false}
                             fields="name,email,picture"
-                            onClick={() => { return null }}
-                            callback={user => { handleLogin(user, setUser) }}
+                            onClick={() => { return <span>loading...</span> }}
+                            callback={res => { handleLogin(res, setUser) }}
                         />
                     }
+                    {
+                        user.isAuthenticated &&
+                        <button onClick={authenticationService.logout}>Logout</button>
+                    }
+
                 </>
             )}
         </AuthenticationContext.Consumer>

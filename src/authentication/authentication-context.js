@@ -5,6 +5,7 @@ const { Provider, Consumer } = React.createContext();
 
 function AuthenticationContextProvider(props) {
     const [user, setUser] = useState(authenticationService);
+    
     return (<Provider value={{ user, setUser }}>{props.children}</Provider>)
 }
 

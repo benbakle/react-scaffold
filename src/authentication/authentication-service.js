@@ -2,12 +2,10 @@ import decode from 'jwt-decode';
 
 
 class AuthenticationService {
-    _currentUser;
     _accessToken;
 
     authenticate = (user) => {
-        console.log(user);
-        this._currentUser = this.configureUser(user);
+        this.setUser(this.configureUser(user));
         this.hydrateUserState(user);
     }
 
@@ -20,6 +18,8 @@ class AuthenticationService {
     }
 
     hydrateUserState = user => {
+        if (!user)
+            return
         this._accessToken = user.accessToken;
         this.setUserInfo({
             accessToken: this._accessToken,
@@ -32,16 +32,16 @@ class AuthenticationService {
     }
 
     setUserInfo = authResult => {
-       // const data = this.parseJwt(this._accessToken);
+        // const data = this.parseJwt(this._accessToken);
         this.setSessionInfo(authResult);
-        this.setUser(authResult.idToken);
+        // this.setUser(authResult);
     };
 
-    parseJwt = token => {
-        const base64Url = token.split(".")[1];
-        const base64 = base64Url.replace("-", "+").replace("_", "/");
-        return JSON.parse(window.atob(base64));
-    };
+    // parseJwt = token => {
+    //     const base64Url = token.split(".")[1];
+    //     const base64 = base64Url.replace("-", "+").replace("_", "/");
+    //     return JSON.parse(window.atob(base64));
+    // };
 
     setSessionInfo(authResult) {
         localStorage.setItem("access_token", authResult.accessToken);
@@ -49,15 +49,15 @@ class AuthenticationService {
     }
 
     getUser = () => {
-        const user = this._currentUser;
+        const user = JSON.parse(localStorage.getItem("user"));
         if (!user) {
             return //redirect;
         }
         return user;
     };
 
-    setUser = data => {
-        localStorage.setItem("userId", data);
+    setUser = user => {
+        localStorage.setItem("user", JSON.stringify(user));
     };
 
     navigateToScreen = () => {

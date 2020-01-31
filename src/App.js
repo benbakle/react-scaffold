@@ -30,46 +30,52 @@ export default function App() {
 
 
   return (
-    <AuthenticationContext.Provider>
-      <ThemeContext.Provider>
-        <ThemeContext.Consumer>
-          {({ theme }) => (
-            <div className={`app theme-${theme}`}>
-              <div className="container">
-                <hr />
+    <ThemeContext.Provider>
+      <ThemeContext.Consumer>
+        {({ theme }) => (
+          <div className={`app theme-${theme}`}>
+            <div className="container">
+              <hr />
+              <AuthenticationContext.Provider>
                 <AuthenticationContext.Consumer>
-                  {({ getUser, isAuthenticated }) => {
+                  {({ user }) => {
                     return (
+                      user && user.isAuthenticated() &&
                       <div>
-                        {getUser && getUser.name}
-                        <br />
-                        {isAuthenticated && isAuthenticated() ? "Authenticated!" : "Not Authenticated"}
+                        {
+                          user &&
+                          <>
+                            <img src={user.getUser().picture} />
+                            <div>{user.getUser().name}</div>
+                            <div>{user.getUser().email}</div>
+                          </>
+                        }
                       </div>
                     )
                   }}
                 </AuthenticationContext.Consumer>
 
                 <Login />
+              </AuthenticationContext.Provider>
 
-                <hr />
-                <Router history={History}>
-                  <Route exact path='/' component={ThemeToggle} />
-                </Router>
+              <hr />
+              <Router history={History}>
+                <Route exact path='/' component={ThemeToggle} />
+              </Router>
 
-                <label>{`https://localhost:44330/${api}`}</label>
-                <input onChange={(e) => { setApi(e.target.value) }} value={api} />
+              <label>{`https://localhost:44330/${api}`}</label>
+              <input onChange={(e) => { setApi(e.target.value) }} value={api} />
 
-                <ul>
-                  {weather && weather.map((item, key) =>
-                    <li key={key}>{item.summary}</li>
-                  )}
-                </ul>
+              <ul>
+                {weather && weather.map((item, key) =>
+                  <li key={key}>{item.summary}</li>
+                )}
+              </ul>
 
-              </div>
             </div>
-          )}
-        </ThemeContext.Consumer>
-      </ThemeContext.Provider>
-    </AuthenticationContext.Provider>
+          </div>
+        )}
+      </ThemeContext.Consumer>
+    </ThemeContext.Provider>
   );
 }
