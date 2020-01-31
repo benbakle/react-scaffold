@@ -5,6 +5,7 @@ import ThemeContext from './contexts/themes';
 import { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
 import AuthenticationContext from './authentication/authentication-context';
 import Login from './authentication/login';
+import * as Facebook from 'fb-sdk-wrapper';
 
 export default function App() {
 
@@ -13,12 +14,25 @@ export default function App() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(`https://localhost:44330/${api}`, { method: 'GET' })
-        .then(res => { return res.json() })
-        .then(json => { return json })
-        .catch(e => console.log(":::ERROR:::", e));
+      // const response = await fetch(`https://localhost:44330/${api}`, { method: 'GET' })
+      //   .then(res => { return res.json() })
+      //   .then(json => { return json })
+      //   .catch(e => console.log(":::ERROR:::", e));
 
-      setWeather(response);
+      // setWeather(response);
+
+
+      Facebook.load()
+        .then(() => {
+          Facebook.init({
+            appId: "211952919854909", //config.appId
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v5.0',
+            status:true,
+          });
+        });
+
     }
 
     fetchData();
@@ -35,8 +49,7 @@ export default function App() {
         {({ theme }) => (
           <div className={`app theme-${theme}`}>
             <div className="container">
-              <hr />
-              <AuthenticationContext.Provider>
+              {/* <hr />
                 <AuthenticationContext.Consumer>
                   {({ user }) => {
                     return (
@@ -53,8 +66,9 @@ export default function App() {
                       </div>
                     )
                   }}
-                </AuthenticationContext.Consumer>
+                </AuthenticationContext.Consumer> */}
 
+                                <AuthenticationContext.Provider>
                 <Login />
               </AuthenticationContext.Provider>
 

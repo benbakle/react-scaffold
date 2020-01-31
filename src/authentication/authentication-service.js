@@ -1,121 +1,138 @@
-import decode from 'jwt-decode';
+import * as Facebook from 'fb-sdk-wrapper';
 
 
 class AuthenticationService {
-    _accessToken;
 
-    authenticate = (user) => {
-        this.setUser(this.configureUser(user));
-        this.hydrateUserState(user);
-    }
+    status = async () => {
+        try {
+            return await Facebook.api('/me?fields=id,name,picture');
+            
 
-    configureUser = (user) => {
-        return {
-            name: (!!user && user.name) || "Guest",
-            email: (!!user && user.email) || "no email",
-            picture: (!!user && user.picture.data.url) || './images/guestProfile',
+        } catch (error) {
+            console.log(error);
         }
     }
 
-    hydrateUserState = user => {
-        if (!user)
-            return
-        this._accessToken = user.accessToken;
-        this.setUserInfo({
-            accessToken: this._accessToken,
-            idToken: user.userID,
-        });
+    login = async () => {
+        try {
+            return await Facebook.login({scope: 'public_profile,email'});
+        } catch (error) {
+            console.log(error);
+        }
 
-        // if (window.location.href.indexOf("signin-oidc") !== -1) {
-        //     this.navigateToScreen();
-        // }
     }
+    // authenticate = (user) => {
+    //     this.setUser(this.configureUser(user));
+    //     this.hydrateUserState(user);
+    // }
 
-    setUserInfo = authResult => {
-        // const data = this.parseJwt(this._accessToken);
-        this.setSessionInfo(authResult);
-        // this.setUser(authResult);
-    };
+    // configureUser = (user) => {
+    //     return {
+    //         name: (!!user && user.name) || "Guest",
+    //         email: (!!user && user.email) || "no email",
+    //         picture: (!!user && user.picture.data.url) || './images/guestProfile',
+    //     }
+    // }
 
-    // parseJwt = token => {
-    //     const base64Url = token.split(".")[1];
-    //     const base64 = base64Url.replace("-", "+").replace("_", "/");
-    //     return JSON.parse(window.atob(base64));
+    // hydrateUserState = user => {
+    //     if (!user)
+    //         return
+    //     this._accessToken = user.accessToken;
+    //     this.setUserInfo({
+    //         accessToken: this._accessToken,
+    //         idToken: user.userID,
+    //     });
+
+    //     // if (window.location.href.indexOf("signin-oidc") !== -1) {
+    //     //     this.navigateToScreen();
+    //     // }
+    // }
+
+    // setUserInfo = authResult => {
+    //     // const data = this.parseJwt(this._accessToken);
+    //     this.setSessionInfo(authResult);
+    //     // this.setUser(authResult);
     // };
 
-    setSessionInfo(authResult) {
-        localStorage.setItem("access_token", authResult.accessToken);
-        localStorage.setItem("id_token", authResult.idToken);
-    }
+    // // parseJwt = token => {
+    // //     const base64Url = token.split(".")[1];
+    // //     const base64 = base64Url.replace("-", "+").replace("_", "/");
+    // //     return JSON.parse(window.atob(base64));
+    // // };
 
-    getUser = () => {
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (!user) {
-            return //redirect;
-        }
-        return user;
-    };
+    // setSessionInfo(authResult) {
+    //     localStorage.setItem("access_token", authResult.accessToken);
+    //     localStorage.setItem("id_token", authResult.idToken);
+    // }
 
-    setUser = user => {
-        localStorage.setItem("user", JSON.stringify(user));
-    };
+    // getUser = () => {
+    //     const user = JSON.parse(localStorage.getItem("user"));
+    //     if (!user) {
+    //         return //redirect;
+    //     }
+    //     return user;
+    // };
 
-    navigateToScreen = () => {
-        window.location.replace("/dashboard");
-    };
+    // setUser = user => {
+    //     localStorage.setItem("user", JSON.stringify(user));
+    // };
 
-    //methods not in constructor
-    isAuthenticated = () => {
-        const access_token = localStorage.getItem("access_token");
-        return !!access_token;
-    };
+    // navigateToScreen = () => {
+    //     window.location.replace("/dashboard");
+    // };
 
-    createSigninRequest = () => {
-        return this._userManager.createSigninRequest();
-    };
+    // //methods not in constructor
+    // isAuthenticated = () => {
+    //     const access_token = localStorage.getItem("access_token");
+    //     return !!access_token;
+    // };
 
-    signinRedirect = () => {
-        localStorage.setItem("redirectUri", window.location.pathname);
-        this._userManager.signinRedirect({});
-    };
+    // createSigninRequest = () => {
+    //     return this._userManager.createSigninRequest();
+    // };
 
-    signinSilent = () => {
-        this._userManager.signinSilent()
-            .then(user => {
-                console.log("signed in", user);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    };
+    // signinRedirect = () => {
+    //     localStorage.setItem("redirectUri", window.location.pathname);
+    //     this._userManager.signinRedirect({});
+    // };
 
-    signinSilentCallback = () => {
-        this._userManager.signinSilentCallback();
-    };
+    // signinSilent = () => {
+    //     this._userManager.signinSilent()
+    //         .then(user => {
+    //             console.log("signed in", user);
+    //         })
+    //         .catch(err => {
+    //             console.log(err);
+    //         });
+    // };
 
-    logout = () => {
-        this._userManager.signoutRedirect({
-            id_token_hint: localStorage.getItem("id_token")
-        });
-        this._userManager.clearStaleState();
-    };
+    // signinSilentCallback = () => {
+    //     this._userManager.signinSilentCallback();
+    // };
 
-    signoutRedirectCallback = () => {
-        this._userManager.signoutRedirectCallback()
-            .then(this.redirectToPublicUrl)
-            .catch(() => { });
+    // logout = () => {
+    //     this._userManager.signoutRedirect({
+    //         id_token_hint: localStorage.getItem("id_token")
+    //     });
+    //     this._userManager.clearStaleState();
+    // };
 
-        this._userManager.clearStaleState();
-    };
+    // signoutRedirectCallback = () => {
+    //     this._userManager.signoutRedirectCallback()
+    //         .then(this.redirectToPublicUrl)
+    //         .catch(() => { });
 
-    redirectToPublicUrl = () => {
-        // used as redirect value in signoutRedirectCallback.
-        // faked until we figure out what this is.
-        let process = { env: { REACT_APP_PUBLIC_URL: "/app-public-url" } };
+    //     this._userManager.clearStaleState();
+    // };
 
-        window.location.replace(process.env.REACT_APP_PUBLIC_URL);
-        localStorage.clear();
-    }
+    // redirectToPublicUrl = () => {
+    //     // used as redirect value in signoutRedirectCallback.
+    //     // faked until we figure out what this is.
+    //     let process = { env: { REACT_APP_PUBLIC_URL: "/app-public-url" } };
+
+    //     window.location.replace(process.env.REACT_APP_PUBLIC_URL);
+    //     localStorage.clear();
+    // }
 }
 
 export default new AuthenticationService();
