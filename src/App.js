@@ -3,6 +3,8 @@ import { Router, Route } from "react-router-dom";
 import History from './services/history';
 import ThemeContext from './contexts/themes';
 import { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
+import AuthenticationContext from './authentication/authentication-context';
+import Login from './authentication/login';
 
 export default function App() {
 
@@ -20,31 +22,54 @@ export default function App() {
     }
 
     fetchData();
+
   }, [api]);
 
+  // const _user = JSON.parse(localStorage.getItem("fb_user"));
+
+
+
   return (
-    <ThemeContext.Provider>
-      <ThemeContext.Consumer>
-        {({ theme }) => (
-          <div className={`app theme-${theme}`}>
-            <div className="container">
-              <Router history={History}>
-                <Route exact path='/' component={ThemeToggle} />
-              </Router>
+    <AuthenticationContext.Provider>
+      <ThemeContext.Provider>
+        <ThemeContext.Consumer>
+          {({ theme }) => (
+            <div className={`app theme-${theme}`}>
+              <div className="container">
+                <hr />
+                <AuthenticationContext.Consumer>
+                  {({ getUser, isAuthenticated }) => {
+                    return (
+                      <div>
+                        {getUser && getUser.name}
+                        <br />
+                        {isAuthenticated && isAuthenticated() ? "Authenticated!" : "Not Authenticated"}
+                      </div>
+                    )
+                  }}
+                </AuthenticationContext.Consumer>
 
-              <label>{`https://localhost:44330/${api}`}</label>
-              <input onChange={(e) => { setApi(e.target.value) }} value={api} />
+                <Login />
 
-              <ul>
-                {weather && weather.map((item, key) =>
-                  <li key={key}>{item.summary}</li>
-                )}
-              </ul>
+                <hr />
+                <Router history={History}>
+                  <Route exact path='/' component={ThemeToggle} />
+                </Router>
 
+                <label>{`https://localhost:44330/${api}`}</label>
+                <input onChange={(e) => { setApi(e.target.value) }} value={api} />
+
+                <ul>
+                  {weather && weather.map((item, key) =>
+                    <li key={key}>{item.summary}</li>
+                  )}
+                </ul>
+
+              </div>
             </div>
-          </div>
-        )}
-      </ThemeContext.Consumer>
-    </ThemeContext.Provider>
+          )}
+        </ThemeContext.Consumer>
+      </ThemeContext.Provider>
+    </AuthenticationContext.Provider>
   );
 }
