@@ -4,8 +4,13 @@ import authenticationService from "./authentication-service";
 const { Provider, Consumer } = React.createContext();
 
 function AuthenticationContextProvider(props) {
-    const [user, setUser] = useState(authenticationService);
+    const [user, setUser] = useState();
     
+    authenticationService.load().then(() => {
+        setUser(authenticationService);
+    })
+
+
     return (<Provider value={{ user, setUser }}>{props.children}</Provider>)
 }
 

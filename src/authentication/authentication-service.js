@@ -1,26 +1,86 @@
 import * as Facebook from 'fb-sdk-wrapper';
+import history from '../services/history';
 
 
 class AuthenticationService {
 
-    status = async () => {
-        try {
-            return await Facebook.api('/me?fields=id,name,picture');
-            
+    async load() {
+        await Facebook.load();
+        await Facebook.init({
+            appId: "211952919854909", //config.appId
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v5.0',
+            status: true,
+        });
 
-        } catch (error) {
-            console.log(error);
-        }
+        await this.setStatus();
+
+        if (this.isConnected())
+            this.setDetails()
     }
 
-    login = async () => {
-        try {
-            return await Facebook.login({scope: 'public_profile,email'});
-        } catch (error) {
-            console.log(error);
-        }
+    isConnected = () => {
+        return JSON.parse(localStorage.getItem("status")).status === "connected";
+    }
+
+    login = async (setUser) => {
+        await Facebook.login({ scope: 'public_profile,email' });
+        await this.setStatus();
+        await this.setDetails();
+        history.push('/');
+        this.load().then(() => {
+            setUser(this);
+        })
+
 
     }
+
+    logout = async (setUser) => {
+        await Facebook.logout(this.token());
+        await this.setStatus();
+        history.push('/');
+        this.load().then(() => {
+            setUser(this);
+        })
+    }
+
+    details = () => {
+        return JSON.parse(localStorage.getItem("details"));
+    }
+
+    async setStatus() {
+        const _status = await Facebook.getLoginStatus();
+        localStorage.setItem("status", JSON.stringify(_status));
+    }
+
+    async setDetails() {
+        const _details = await Facebook.api('/me?fields=id,name,picture');
+        localStorage.setItem("details", JSON.stringify(_details));
+    }
+
+
+    token() {
+        return JSON.parse(localStorage.getItem("status")).accessToken;
+    }
+
+
+    setUser = async () => {
+        return Facebook.api('/me?fields=id,name,picture').then(res => { this.user = res });
+        // return await Facebook.api('/me?fields=id,name,picture');
+    }
+
+
+
+    // isConnected = async () => {
+    //     const _status = await this.status();
+    //     return _status.status === "connected";
+    // }
+
+}
+
+export default new AuthenticationService();
+
     // authenticate = (user) => {
     //     this.setUser(this.configureUser(user));
     //     this.hydrateUserState(user);
@@ -133,6 +193,3 @@ class AuthenticationService {
     //     window.location.replace(process.env.REACT_APP_PUBLIC_URL);
     //     localStorage.clear();
     // }
-}
-
-export default new AuthenticationService();
