@@ -5,6 +5,7 @@ import history from '../services/history';
 class AuthenticationService {
 
     async load() {
+        localStorage.clear();
         await Facebook.load();
         await Facebook.init({
             appId: "211952919854909", //config.appId
@@ -21,7 +22,8 @@ class AuthenticationService {
     }
 
     isConnected = () => {
-        return JSON.parse(localStorage.getItem("status")).status === "connected";
+        let _status = JSON.parse(localStorage.getItem("status"));
+        return _status && (_status.status === "connected");
     }
 
     login = async (setUser) => {

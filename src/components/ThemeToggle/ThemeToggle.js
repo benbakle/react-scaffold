@@ -9,29 +9,39 @@ export function ThemeToggle() {
         <ThemeContext.Consumer>
             {({ theme }) => (
                 <>
-                    <Button />
-                    <div className="heading">
-                        Currently using the <span className="uppercase">{theme}</span> theme
-                    </div>
                     <AuthenticationContext.Consumer>
                         {({ user }) => (
                             <>
                                 {
                                     user && user.isConnected() &&
                                     <>
-                                        {user.details().name}(connected)
+                                        <img src={user.details().picture.data.url} />
+                                        <br />
+                                        {user.details().name} 
+                                        <br />
+                                        connected
+                                        <br />
+                                        <button onClick={() => { history.push('/logout') }}>Logout</button>
                                     </>
                                 }
-                                <button onClick={() => { history.push('/login') }}>Login</button>
-                                <button onClick={() => { history.push('/logout') }}>Logout</button>
-
+                                {
+                                    user && !user.isConnected() &&
+                                    <button onClick={() => { history.push('/login') }}>Login</button>
+                                }
+                                <hr />
                             </>
                         )
 
                         }
                     </AuthenticationContext.Consumer>
+
+                    <Button />
+                    <div className="heading">
+                        Currently using the <span className="uppercase">{theme}</span> theme
+                    </div>
                 </>
-            )}
-        </ThemeContext.Consumer>
+            )
+            }
+        </ThemeContext.Consumer >
     )
 }
