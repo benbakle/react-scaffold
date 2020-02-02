@@ -16,7 +16,7 @@ function Login() {
                         {
                             isAuthenticated && isAuthenticated() &&
                             <div className="heading">
-                                <img src={user().picture.data.url} alt="user" />
+                                <img src={user().picture} alt="user" />
                                 {`Welcome ${user().name}`}
                                 <button onClick={() => handleLogin(logout, refreshContext)}>logout</button>
                             </div>

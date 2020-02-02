@@ -1,22 +1,20 @@
 import * as Facebook from 'fb-sdk-wrapper';
-
+import LogDatShit from '../services/logger';
 class AuthenticationService {
 
-    log = console.log;
+    log = LogDatShit.log;
     FB;
-
-
     load = async () => {
         try {
             await this.loadFaceBookSDK();
+            return true;
         }
-        
+
         catch (error) {
             this.log("An error occured while loading the Facebook SDK");
             return false;
         }
 
-        return true;
     }
 
     async loadFaceBookSDK() {
@@ -33,7 +31,7 @@ class AuthenticationService {
                 status: true,
             });
             this.log("Successfully loaded SDK!", test);
-            this.setStatus();
+            await this.setStatus();
 
         }
     }
@@ -50,31 +48,37 @@ class AuthenticationService {
 
     logout = async () => {
         await this.FB.logout(this.token);
-        this.setStatus();
+        await this.setStatus();
     }
 
     login = async () => {
         await this.FB.login();
-        this.setStatus();
+        await this.setStatus();
     }
 
     async setStatus() {
         this.log("Getting user status...")
         const _status = await this.FB.getLoginStatus();
         localStorage.setItem("status", JSON.stringify(_status));
-        this.handleStatusResponse(_status);
+        await this.handleStatusResponse(_status.status);
     }
 
     async handleStatusResponse(status) {
-        if (status.status === "connected")
-            return this.setUser();
+        if (status === "connected")
+            return await this.setUser();
     }
 
     async setUser() {
         this.log("Getting user details...")
-        const _user = await this.FB.api("/me?fields=name, email, picture");
+        let _user = await this.FB.api("/me?fields=name, email, picture");
+        _user = this.flattenUser(_user);
         localStorage.setItem("user", JSON.stringify(_user));
         this.log("User details aquired (name, email, picture)");
+    }
+
+    flattenUser(user) {
+        const { name, email, picture } = user;
+        return { name, email, picture: picture.data.url };
     }
 }
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import authenticationService from "./authentication-service";
+import LogDatShit from "../services/logger";
 
 const { Provider, Consumer } = React.createContext();
 
@@ -12,7 +13,7 @@ function AuthenticationContextProvider(props) {
         const loaded = await authenticationService.load();
         setLoadedTo(loaded);
         setContext(authenticationService)
-        console.log(`Authentication loaded ${loaded ? "successfully" : "in error"}!`)
+        LogDatShit.log(`Authentication loaded ${loaded ? "successfully" : "in error"}!`)
     }
 
     useEffect(() => {
@@ -22,8 +23,9 @@ function AuthenticationContextProvider(props) {
     return (
         <>
             {
-                loaded &&
-                <Provider value={{ ...context, refreshContext }}>{props.children}</Provider>
+                loaded ?
+                    <Provider value={{ ...context, refreshContext }}>{props.children}</Provider> :
+                    <span>loading...</span>
             }
         </>
     )
