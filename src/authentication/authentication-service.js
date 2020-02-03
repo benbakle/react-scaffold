@@ -1,9 +1,10 @@
 import * as Facebook from 'fb-sdk-wrapper';
 import LogDatShit from '../services/logger';
-class AuthenticationService {
 
+class AuthenticationService {
     log = LogDatShit.log;
     FB;
+
     load = async () => {
         try {
             await this.loadFaceBookSDK();
@@ -14,7 +15,6 @@ class AuthenticationService {
             this.log("An error occured while loading the Facebook SDK");
             return false;
         }
-
     }
 
     async loadFaceBookSDK() {
@@ -43,8 +43,20 @@ class AuthenticationService {
     };
 
     user = () => {
-        return JSON.parse(localStorage.getItem("user"));
+        let _user = JSON.parse(localStorage.getItem("user"));
+        let role = this.getRole(_user.id);
+        _user.role = role
+        return this.flattenUser(_user);
     }
+
+    flattenUser(user) {
+        return { ...user, picture: user.picture.data.url };
+    }
+
+    status = () => {
+        return JSON.parse(localStorage.getItem("status"));
+    }
+
 
     logout = async () => {
         await this.FB.logout(this.token);
@@ -54,6 +66,12 @@ class AuthenticationService {
     login = async () => {
         await this.FB.login();
         await this.setStatus();
+    }
+
+    getRole(id) {
+        if (id === "10157868078424144")
+            return "admin";
+        return "standard"
     }
 
     async setStatus() {
@@ -70,16 +88,12 @@ class AuthenticationService {
 
     async setUser() {
         this.log("Getting user details...")
-        let _user = await this.FB.api("/me?fields=name, email, picture");
-        _user = this.flattenUser(_user);
+        let _user = await this.FB.api("/me?fields=name, email, picture.width(800).height(800), id");
         localStorage.setItem("user", JSON.stringify(_user));
         this.log("User details aquired (name, email, picture)");
     }
 
-    flattenUser(user) {
-        const { name, email, picture } = user;
-        return { name, email, picture: picture.data.url };
-    }
+
 }
 
 export default new AuthenticationService();

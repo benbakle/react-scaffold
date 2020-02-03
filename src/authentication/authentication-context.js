@@ -16,18 +16,12 @@ function AuthenticationContextProvider(props) {
         LogDatShit.log(`Authentication loaded ${loaded ? "successfully" : "in error"}!`)
     }
 
-    useEffect(() => {
-        refreshContext();
-    }, []);
+    useEffect(() => { refreshContext(); }, []);
 
     return (
-        <>
-            {
-                loaded ?
-                    <Provider value={{ ...context, refreshContext }}>{props.children}</Provider> :
-                    <span>loading...</span>
-            }
-        </>
+        loaded ?
+            <Provider value={{ ...context, refreshContext }}>{props.children}</Provider> :
+            <span>loading...</span>
     )
 }
 

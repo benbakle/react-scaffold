@@ -33,7 +33,7 @@ label {
 
 button {
   background-color: transparent;
-  border: 0.3rem solid #282c34;
+  border: 0.3rem solid;
   padding: 1rem 2rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -45,20 +45,24 @@ button {
 
   @include theme(".theme-light") {
     color: #282c34;
+    border-color:  #282c34;
     background-color: white;
 
     @include states {
       color: white;
+      border-color: white;
       background-color: #282c34;
     }
   }
 
   @include theme(".theme-dark") {
     color: white;
+    border-color: white;
     background-color: #282c34;
 
     @include states {
       color: #282c34;
+      border-color:  #282c34;
       background-color: white;
     }
   }
