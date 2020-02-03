@@ -78,7 +78,6 @@ class AuthenticationService {
     getRole(id) {
         if (id === "10157868078424144")
             return "admin";
-        return "standard"
     }
 
     async setStatus() {

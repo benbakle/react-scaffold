@@ -1,0 +1,22 @@
+.user-login {
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            padding: .5rem 3rem;
+
+            &:first-child {
+                font-size: 2.8rem;
+            }
+        }
+    }
+
+    .user-details {
+        padding: 3rem
+    }
+    img{
+        max-width: 15rem;
+    }
+}

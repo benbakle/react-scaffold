@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import AuthenticationContext from './authentication-context';
-import history from '../services/history';
-import Loading from '../components/Loading/Loading';
+import AuthenticationContext from '../authentication-context';
+import history from '../../services/history';
+import Loading from '../../components/Loading/Loading';
+import './user-login.scss';
 
 export default function UserLogin() {
     const [loggingOut, setLoggingOut] = useState();
@@ -13,7 +14,6 @@ export default function UserLogin() {
 
     const copy = () => {
         var copyText = document.getElementById("userId");
-
         copyText.select();
         copyText.setSelectionRange(0, 99999); /*For mobile devices*/
         document.execCommand("copy");
@@ -23,26 +23,24 @@ export default function UserLogin() {
     return (
         <AuthenticationContext.Consumer>
             {({ isAuthenticated, user }) => (
-                <div className="login">
+                <div className="user-login">
                     {
                         isAuthenticated && isAuthenticated() && !loggingOut &&
                         <div className="flex flex-end align-center">
-                            <div style={{ padding: "3rem" }}>
+                            <div className="user-details">
                                 <ul>
                                     <li>{user().name}</li>
-                                    <li><a href="" onClick={copy}>{user().id}</a></li>
-                                    <li>{user().role === "admin" ? "Administrator" : "Standard"}</li>
+                                    <li className="small">Role: {user().role === "admin" ? "Administrator" : "Super Fan"}</li>
+                                    <li><button className="small" onClick={copy}>Copy User ID</button></li>
+                                    <li><button className="small" onClick={logout}>logout</button></li>
                                 </ul>
-                                
+
                                 {/* hidden input for copying */}
-                                <input id="userId" value={user().id} style={{ position: "fixed", top: "-100rem" }} />
-                                
-                                <div className="button-wrapper">
-                                    <button onClick={logout}>logout</button>
-                                </div>
+                                <input id="userId" value={user().id} style={{ position: "fixed", top: "-100rem" }} onChange={() => { return }} />
+
                             </div>
 
-                            <img src={user().picture} alt="user" style={{ maxWidth: "20rem" }} />
+                            <img src={user().picture} alt="user" />
                         </div>
                     }
                     {

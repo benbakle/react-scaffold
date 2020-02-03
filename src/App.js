@@ -3,7 +3,7 @@ import { Router, Route } from "react-router-dom";
 import History from './services/history';
 import ThemeContext from './contexts/themes';
 import { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
-import UserLogin from './authentication/UserLogin';
+import UserLogin from './authentication/UserLogin/UserLogin';
 import AuthenticationContext from './authentication/authentication-context';
 import Login from './authentication/Login';
 import Logout from './authentication/Logout';
@@ -17,13 +17,13 @@ export default function App() {
           <div className={`app theme-${theme}`}>
             <AuthenticationContext.Provider>
               <div className="container">
-                
+
                 <UserLogin />
-          
+
                 <Router history={History}>
                   <Route exact path='/login' component={Login} />
                   <Route exact path='/logout' component={Logout} />
-                  <AuthenticatedRoute exact path='/' component={ThemeToggle} /> 
+                  <AuthenticatedRoute exact path='/' component={ThemeToggle} />
                 </Router>
 
               </div>
