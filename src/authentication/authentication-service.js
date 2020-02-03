@@ -1,5 +1,6 @@
 import * as Facebook from 'fb-sdk-wrapper';
 import LogDatShit from '../services/logger';
+import history from '../services/history';
 
 class AuthenticationService {
     log = LogDatShit.log;
@@ -58,14 +59,20 @@ class AuthenticationService {
     }
 
 
-    logout = async () => {
+    logout = async (callback) => {
         await this.FB.logout(this.token);
         await this.setStatus();
+        callback && callback();
+        history.push('/');
+        this.log("User has logged out!")
     }
 
-    login = async () => {
+    login = async (callback) => {
         await this.FB.login();
         await this.setStatus();
+        callback && callback();
+        history.push('/');
+        this.log("User has logged in!")
     }
 
     getRole(id) {

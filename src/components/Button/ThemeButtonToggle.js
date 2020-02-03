@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import  ThemeContext  from '../../contexts/themes';
+import ThemeContext from '../../contexts/themes';
 
-export  function Button(props) {
+export default function ThemeButtonToggle(props) {
     const [count, setCount] = useState(0);
 
     const checkToggle = callback => {

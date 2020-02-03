@@ -1,6 +1,6 @@
 import React from 'react';
 import ThemeContext from '../../contexts/themes';
-import { Button } from '../Button/Button';
+import ThemeToggleButton  from '../Button/ThemeButtonToggle';
 
 export function ThemeToggle() {
 
@@ -8,7 +8,7 @@ export function ThemeToggle() {
         <ThemeContext.Consumer>
             {({ theme }) => (
                 <>
-                    <Button />
+                    <ThemeToggleButton />
                     <div className="heading">
                         Currently using the <span className="uppercase">{theme}</span> theme
                     </div>

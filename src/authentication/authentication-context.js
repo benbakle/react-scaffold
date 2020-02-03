@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import authenticationService from "./authentication-service";
 import LogDatShit from "../services/logger";
+import Loading from "../components/Loading/Loading";
 
 const { Provider, Consumer } = React.createContext();
 
@@ -21,7 +22,7 @@ function AuthenticationContextProvider(props) {
     return (
         loaded ?
             <Provider value={{ ...context, refreshContext }}>{props.children}</Provider> :
-            <span>loading...</span>
+            <Loading />
     )
 }
 

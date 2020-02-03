@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import ThemeContext from '../../contexts/themes';
-import { Button } from './Button';
+import ThemeButtonToggle from './ThemeButtonToggle';
 
 describe("The Button component", () => {
     let _component, _toggleThemeHasBeenCalled;
@@ -38,7 +38,7 @@ describe("The Button component", () => {
     function setComponentWithContext(theme) {
         _component = mount(
             <ThemeContext.Provider value={{ theme, toggleTheme: () => { _toggleThemeHasBeenCalled = true } }}>
-                <Button />
+                <ThemeButtonToggle />
             </ThemeContext.Provider>
         );
     }
