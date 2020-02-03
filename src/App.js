@@ -7,7 +7,7 @@ import UserLogin from './authentication/UserLogin';
 import AuthenticationContext from './authentication/authentication-context';
 import Login from './authentication/Login';
 import Logout from './authentication/Logout';
-import AuthenticatedRoute from './components/AuthenticatedRoute/AuthenticatedRoute';
+import AuthenticatedRoute from './authentication/AuthenticatedRoute/AuthenticatedRoute';
 
 export default function App() {
   return (

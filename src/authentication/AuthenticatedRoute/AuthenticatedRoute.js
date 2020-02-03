@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from "react-router-dom";
-import AuthenticationContext from "../../authentication/authentication-context";
+import AuthenticationContext from "../authentication-context";
 
 export default function AuthenticatedRoute(props) {
     return (
