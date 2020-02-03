@@ -7,6 +7,7 @@ import UserLogin from './authentication/UserLogin';
 import AuthenticationContext from './authentication/authentication-context';
 import Login from './authentication/Login';
 import Logout from './authentication/Logout';
+import AuthenticatedRoute from './components/AuthenticatedRoute/AuthenticatedRoute';
 
 export default function App() {
   return (
@@ -16,22 +17,15 @@ export default function App() {
           <div className={`app theme-${theme}`}>
             <AuthenticationContext.Provider>
               <div className="container">
+                
                 <UserLogin />
+          
                 <Router history={History}>
-                  <Route exact path='/login' component={Login}/>
-                  <Route exact path='/logout' component={Logout}/>
-
-                  <AuthenticationContext.Consumer>
-                    {({ isAuthenticated }) => (
-                      <>
-                        {
-                          isAuthenticated && isAuthenticated() &&
-                          <Route exact path='/' component={ThemeToggle} />
-                        }
-                      </>
-                    )}
-                  </AuthenticationContext.Consumer>
+                  <Route exact path='/login' component={Login} />
+                  <Route exact path='/logout' component={Logout} />
+                  <AuthenticatedRoute exact path='/' component={ThemeToggle} /> 
                 </Router>
+
               </div>
             </AuthenticationContext.Provider>
           </div>

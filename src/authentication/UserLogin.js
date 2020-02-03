@@ -10,18 +10,13 @@ export default function UserLogin() {
         setLoggingOut(true);
         history.push("/logout")
     }
-    
+
     const copy = () => {
         var copyText = document.getElementById("userId");
 
-        /* Select the text field */
         copyText.select();
         copyText.setSelectionRange(0, 99999); /*For mobile devices*/
-
-        /* Copy the text inside the text field */
         document.execCommand("copy");
-
-        /* Alert the copied text */
         alert("Copied the text: " + copyText.value);
     }
 
@@ -33,16 +28,20 @@ export default function UserLogin() {
                         isAuthenticated && isAuthenticated() && !loggingOut &&
                         <div className="flex flex-end align-center">
                             <div style={{ padding: "3rem" }}>
-                                <input id="userId" value={user().id} style={{ position: "fixed", top: "-100rem" }} />
                                 <ul>
                                     <li>{user().name}</li>
                                     <li><a href="" onClick={copy}>{user().id}</a></li>
                                     <li>{user().role === "admin" ? "Administrator" : "Standard"}</li>
                                 </ul>
+                                
+                                {/* hidden input for copying */}
+                                <input id="userId" value={user().id} style={{ position: "fixed", top: "-100rem" }} />
+                                
                                 <div className="button-wrapper">
                                     <button onClick={logout}>logout</button>
                                 </div>
                             </div>
+
                             <img src={user().picture} alt="user" style={{ maxWidth: "20rem" }} />
                         </div>
                     }
