@@ -6,34 +6,23 @@ class AuthenticationService {
     log = LogDatShit.log;
     FB;
 
-    load = async () => {
-        try {
-            await this.loadFaceBookSDK();
-            return true;
-        }
+    load = () => {
+        tryCatch(async () => {
+            this.log("Loading Facebook SDK v5.0...")
 
-        catch (error) {
-            this.log("An error occured while loading the Facebook SDK");
-            return false;
-        }
+            await this.loadFaceBookSDK();
+
+            this.log("Successfully loaded Facebook SDK v5.0")
+        }, "Faild to load the Facebook SDK")
+        return true
     }
 
     async loadFaceBookSDK() {
         if (!this.FB) {
-            this.log("Loading Facebook SDK v5.0...")
             this.FB = Facebook;
-            const test = await this.FB.load();
-            await this.FB.init({
-                appId: "211952919854909", //config.appId
-                autoLogAppEvents: true,
-                xfbml: true,
-                cookie: true,
-                version: 'v5.0',
-                status: true,
-            });
-            this.log("Successfully loaded SDK!", test);
-            await this.setStatus();
-
+            await this.FB.load();
+            this.init();
+            this.setStatus();
         }
     }
 
@@ -48,6 +37,14 @@ class AuthenticationService {
         let role = this.getRole(_user.id);
         _user.role = role
         return this.flattenUser(_user);
+    }
+
+    jyb = () => {
+        return JSON.parse(localStorage.getItem("jyb"));
+    }
+
+    feed = () => {
+        return JSON.parse(localStorage.getItem("feed"));
     }
 
     flattenUser(user) {
@@ -80,26 +77,86 @@ class AuthenticationService {
             return "admin";
     }
 
-    async setStatus() {
-        this.log("Getting user status...")
-        const _status = await this.FB.getLoginStatus();
-        localStorage.setItem("status", JSON.stringify(_status));
-        await this.handleStatusResponse(_status.status);
+    init() {
+        tryCatch(async () => {
+            this.log("Initializing the Facebook SDK...");
+
+            await this.FB.init({
+                appId: "211952919854909", //config.appId
+                autoLogAppEvents: true,
+                xfbml: true,
+                cookie: true,
+                version: 'v5.0',
+                status: true,
+            });
+
+            this.log("Successfully initialized the Facebook SDK with with JYB App options!");
+        }, "Error initializing the Facebook SDK")
     }
 
-    async handleStatusResponse(status) {
-        if (status === "connected")
-            return await this.setUser();
+    setStatus() {
+        tryCatch(async () => {
+            this.log("Getting current user status...")
+
+            const _status = await this.FB.getLoginStatus();
+            localStorage.setItem("status", JSON.stringify(_status));
+
+            this.log(`User has status of ${_status.status}`)
+
+            this.setUser();
+        }, "Error getting user status.");
     }
 
-    async setUser() {
-        this.log("Getting user details...")
-        let _user = await this.FB.api("/me?fields=name, email, picture.width(800).height(800), id");
-        localStorage.setItem("user", JSON.stringify(_user));
-        this.log("User details aquired (name, email, picture)");
+    setUser() {
+        tryCatch(async () => {
+            if (this.status().status !== "connected")
+                return;
+
+            this.log("Getting user details...")
+
+            const fields = "id, name, email, picture.width(800).height(800)";
+            const _user = await this.FB.api("/me", { fields });
+            localStorage.setItem("user", JSON.stringify(_user));
+
+            this.log(`User details aquired : `);
+            this.log(JSON.stringify(_user))
+
+            this.setJYB();
+        }, `Error getting user details`)
     }
 
+    setJYB() {
+        tryCatch(async () => {
+            this.log("Getting Joel Young Band details");
 
+            const _accounts = await this.FB.api(`/10157868078424144/accounts`);
+            const fields = "about, attire, bio, location, parking, hours, emails, website, picture.width(800).height(800)";
+            const _jyb = await this.FB.api(`/${_accounts.data[0].id}`, 'GET', { fields });
+            localStorage.setItem("jyb", JSON.stringify(_jyb));
+
+            this.log("Rock 'n Roll! Aquired Joel Young Band details!");
+
+            this.setFeed();
+        }, "Error getting Joel Young Band details")
+    }
+
+    setFeed() {
+        tryCatch(async () => {
+            this.log("Getting Joel Young Band post feed...")
+
+            const _feed = await this.FB.api(`/${this.jyb().id}/feed`, 'GET', { limit: 100 });
+            const _filteredFeed = _feed.data.filter(f => { return f.message !== undefined })
+            localStorage.setItem("feed", JSON.stringify(_filteredFeed));
+
+            this.log(`Feeds aquired with ${_filteredFeed.length} records (not albums... DATA) `)
+        }, "Error getting Joel Young Band posts.");
+    }
+
+}
+
+function tryCatch(tryCode, catchError) {
+    try { tryCode() }
+    catch (error) { this.log(catchError, error) }
 }
 
 export default new AuthenticationService();
