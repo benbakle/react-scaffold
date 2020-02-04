@@ -34,6 +34,11 @@ export default function UserLogin() {
                                         <li className="small">Role: {user().role === "admin" ? "Administrator" : "Super Fan"}</li>
                                         <li><button className="small" onClick={copy}>Copy User ID</button></li>
                                         <li><button className="small" onClick={logout}>logout</button></li>
+                                        <li>
+                                            <a href="https://developers.facebook.com/apps/211952919854909/dashboard/" target="blank">
+                                                JYB Facebook App Dashboard
+                                            </a>
+                                        </li>
                                     </ul>
 
                                     {/* hidden input for copying */}
