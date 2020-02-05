@@ -7,7 +7,6 @@ export default function Logout() {
         <AuthenticationContext.Consumer>
             {({ logout, refreshContext }) => {
                 logout(refreshContext);
-                return <Loading />;
             }}
         </AuthenticationContext.Consumer>
     )

@@ -107,6 +107,10 @@ class AuthenticationService {
 
     user = () => {
         let _user = JSON.parse(localStorage.getItem("user"));
+
+        if (!_user)
+            return
+
         let role = this.getRole(_user.id);
         _user.role = role
         return this.flattenUser(_user);
@@ -140,6 +144,8 @@ class AuthenticationService {
         for (let i = 0; i < _ids.length; i++)
             if (_ids[i] === id)
                 return "admin";
+                
+        return "standard"
     }
 
     flattenUser(user) {

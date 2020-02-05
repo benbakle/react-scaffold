@@ -7,7 +7,6 @@ export default function Login() {
         <AuthenticationContext.Consumer>
             {({ login, refreshContext }) => {
                 login(refreshContext);
-                return <Loading />;
             }}
         </AuthenticationContext.Consumer>
     )

@@ -19,7 +19,7 @@ export default function AuthenticatedRoute({ component: Component, roles, ...res
             render={routeProps => (
                 <AuthenticationContext.Consumer>
                     {({ user }) => {
-                        return user && authorizedRole(user().role) ?
+                        return user && user() && authorizedRole(user().role) ?
                             <Component {...routeProps} /> :
                             <span>Admin Only Message</span>
                     }}

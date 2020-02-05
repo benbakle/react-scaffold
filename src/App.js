@@ -25,6 +25,7 @@ export default function App() {
                   <Route exact path='/logout' component={Logout} />
                   <Route exact path='/' render={() => <>Home</>} />
                   <AuthenticatedRoute exact path='/admin' component={JYB} roles={["admin"]} />
+                  <AuthenticatedRoute exact path='/admin2' component={() => <>Admin</>} roles={["admin"]} />
                 </Router>
 
               </div>
