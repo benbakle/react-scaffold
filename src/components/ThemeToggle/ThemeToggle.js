@@ -1,6 +1,6 @@
 import React from 'react';
 import ThemeContext from '../../contexts/themes';
-import ThemeToggleButton  from '../Button/ThemeButtonToggle';
+import ThemeToggleButton  from '../ThemeButtonToggle/ThemeButtonToggle';
 
 export function ThemeToggle() {
 

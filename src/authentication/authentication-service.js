@@ -1,6 +1,7 @@
 import * as Facebook from 'fb-sdk-wrapper';
 import LogDatShit from '../services/logger';
 import history from '../services/history';
+import { jyb_admin_ids, jyb_app_id, jyb_facebook_page_id } from './authentication-config.json';
 
 class AuthenticationService {
     log = LogDatShit.log;
@@ -8,16 +9,16 @@ class AuthenticationService {
 
     load = async () => {
         if (!this.FB)
-            await  this.loadFaceBookSDK();
+            await this.loadFaceBookSDK();
 
         await asyncTryCatch(() => this.setStatus(), "Error getting the current user's status.");
 
-        if (this.status().status === "connected") 
+        if (this.status().status === "connected")
             await asyncTryCatch(() => this.setUser(), "Error getting the current users details.");
-        
+
         await asyncTryCatch(() => this.setJYB(), "Error getting JYB details.");
         await asyncTryCatch(() => this.setFeed(), "Error getting JYB news feed.");
-        
+
         return true
     }
 
@@ -35,7 +36,7 @@ class AuthenticationService {
         this.log("Initializing the JYB Facebook App...");
 
         await this.FB.init({
-            appId: "211952919854909", //config.appId
+            appId: jyb_app_id,
             autoLogAppEvents: true,
             xfbml: true,
             cookie: true,
@@ -68,9 +69,12 @@ class AuthenticationService {
     }
 
     async setJYB() {
-        this.log("Getting Joel Young Band details...");
+        if (!this.isAuthenticated() || this.user().role !== "admin")
+            return;
 
-        const _accounts = await this.FB.api(`/10157868078424144/accounts`);
+        this.log("#### OHHH! AREN'T YOU SPECIAL... YOU GET ADMIN PRIVILAGES!!! ####");
+        this.log("Getting Joel Young Band details...");
+        const _accounts = await this.FB.api(`/${jyb_facebook_page_id}/accounts`);
         const fields = "about, attire, bio, location, parking, hours, emails, website, picture.width(800).height(800)";
         const _jyb = await this.FB.api(`/${_accounts.data[0].id}`, 'GET', { fields });
         localStorage.setItem("jyb", JSON.stringify(_jyb));
@@ -79,6 +83,9 @@ class AuthenticationService {
     }
 
     async setFeed() {
+        if (!this.isAuthenticated() || this.user().role !== "admin")
+            return;
+
         this.log("Getting Joel Young Band post feed...")
 
         const _feed = await this.FB.api(`/${this.jyb().id}/feed`, 'GET', { limit: 100 });
@@ -123,13 +130,16 @@ class AuthenticationService {
     login = async (callback) => {
         await this.FB.login();
         callback && callback();
-        history.push('/');
+        history.push('/admin');
         this.log("User has logged in!")
     }
 
     getRole(id) {
-        if (id === "10157868078424144")
-            return "admin";
+        let _ids = jyb_admin_ids;
+
+        for (let i = 0; i < _ids.length; i++)
+            if (_ids[i] === id)
+                return "admin";
     }
 
     flattenUser(user) {
@@ -139,7 +149,7 @@ class AuthenticationService {
 
 async function asyncTryCatch(tryCode, catchError) {
     try { await tryCode() }
-    catch (error) { LogDatShit.log;(catchError, error) }
+    catch (error) { LogDatShit.log(catchError, error) }
 }
 
 export default new AuthenticationService();
