@@ -52,7 +52,7 @@ export default function UserLogin() {
                         isAuthenticated && !isAuthenticated() && !loggingOut &&
                         <div className="flex flex-end align-center">
                             <div className="button-wrapper">
-                                <button onClick={() => { history.push("/login") }}>Login with Facebook</button>
+                                <button onClick={() => { history.push(`/login?redirect=test`) }}>Login with Facebook</button>
                             </div>
                         </div>
                     }
