@@ -10,6 +10,8 @@ import Logout from './authentication/Logout';
 import AuthenticatedRoute from './authentication/AuthenticatedRoute/AuthenticatedRoute';
 import JYB from './components/JYB';
 import ThemeWrapper from './theme/ThemeWrapper/ThemeWrapper';
+import Dropdown from './components/Dropdown/Dropdown';
+import DropdownWrapper from './components/Dropdown/DropdownWrapper';
 
 export default function App() {
 
@@ -18,9 +20,10 @@ export default function App() {
       <ThemeWrapper>
         <AuthenticationContext.Provider>
           <div className="container">
-            <UserLogin />
-            <ThemeToggle />
             <Router history={History}>
+              <UserLogin />
+              <ThemeToggle />
+              <DropdownWrapper/>
               <Route exact path='/login' component={Login} />
               <Route exact path='/logout' component={Logout} />
               <Route exact path='/' render={() => <>Home</>} />
