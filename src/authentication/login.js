@@ -14,7 +14,7 @@ export default function Login(props) {
 
     return (
         <>
-            {_login && _login(_refreshContext)}
+            {_login && _login() && _refreshContext()}
             <Loading />
         </>
     )

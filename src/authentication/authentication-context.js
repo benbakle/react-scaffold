@@ -15,7 +15,7 @@ function AuthenticationContextProvider(props) {
         setContext(authenticationService)
     }
 
-    useEffect(() => { refreshContext(); }, [loaded]);
+    useEffect(() => { refreshContext(); }, []);
 
     return (
         loaded
