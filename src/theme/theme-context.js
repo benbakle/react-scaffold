@@ -9,11 +9,6 @@ const ThemeContextProvider = props => {
         setTheme(theme === "light" ? "dark" : "light");
     };
 
-    // const _value = {
-    //     theme: (props.value && props.value.theme) || theme,
-    //     toggleTheme: (props.value && props.value.toggleTheme) || toggleTheme,
-    // };
-
     return (<ThemeContext.Provider value={{ theme, toggleTheme }}>
         {props.children}
     </ThemeContext.Provider>)

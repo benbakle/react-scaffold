@@ -127,6 +127,7 @@ class AuthenticationService {
     logout = async (callback) => {
         await this.FB.logout(this.token);
         callback && callback();
+        console.log(callback)
         history.push('/');
         this.log("User has logged out!")
     }

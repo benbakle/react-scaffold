@@ -1,29 +1,21 @@
+import { useAuthentication } from "./authentication-context";
 import React, { useEffect, useState } from 'react';
-import AuthenticationContext from "./authentication-context";
-import history from '../services/history';
+import Loading from "../components/Loading/Loading";
 
 export default function Login(props) {
-    const [redirectUrl, setRediredtUrl] = useState();
+    const [_login, setLogin] = useState();
+    const [_refreshContext, setRefreshContext] = useState();
+    const { login, refreshContext } = useAuthentication();
 
-    // useEffect(() => {
-    //     const urlParams = new URLSearchParams(props.location.search);
-    //     const _redirectUrl = urlParams.get('redirect');
-    //     setRediredtUrl(_redirectUrl);
-    //     console.log(redirectUrl);
-    // },[]);
-
-    const _login = async (login) => {
-        await login();
-       // history.push(`/${redirectUrl}`);
-    }
-
+    useEffect(() => {
+        setLogin(login);
+        setRefreshContext(refreshContext);
+    }, [login, refreshContext])
 
     return (
-        <AuthenticationContext.Consumer>
-            {({ login, refreshContext }) => {
-                login && login(refreshContext);
-                // login && _login(login);
-            }}
-        </AuthenticationContext.Consumer>
+        <>
+            {_login && _login(_refreshContext)}
+            <Loading />
+        </>
     )
 }

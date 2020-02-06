@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import authenticationService from "./authentication-service";
-import LogDatShit from "../services/logger";
 import Loading from "../components/Loading/Loading";
 
-const { Provider, Consumer } = React.createContext();
+const AuthenticationContext = React.createContext();
 
 function AuthenticationContextProvider(props) {
     const [loaded, setLoadedTo] = useState();
@@ -11,20 +10,25 @@ function AuthenticationContextProvider(props) {
 
     const refreshContext = async () => {
         setLoadedTo(false);
-        let _loaded =await authenticationService.load();
+        let _loaded = await authenticationService.load();
         setLoadedTo(_loaded);
         setContext(authenticationService)
     }
 
-    useEffect(() => { refreshContext(); }, []);
+    useEffect(() => { refreshContext(); }, [loaded]);
 
     return (
-        loaded ?
-            <Provider value={{ ...context, refreshContext }}>{props.children}</Provider> :
-            <Loading />
+        loaded
+            ? <AuthenticationContext.Provider value={{ ...context, refreshContext }}>
+                {props.children}
+            </AuthenticationContext.Provider>
+            : <Loading />
     )
 }
 
-const AuthenticationContext = { Provider: AuthenticationContextProvider, Consumer };
+const useAuthentication = () => {
+    const _context = useContext(AuthenticationContext);
+    return _context;
+}
 
-export default AuthenticationContext;
+export { AuthenticationContextProvider, useAuthentication };
