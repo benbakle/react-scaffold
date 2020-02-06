@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthenticationContext from '../authentication-context';
 import history from '../../services/history';
 import Loading from '../../components/Loading/Loading';
 import './user-login.scss';
 
-export default function UserLogin() {
+export default function UserLogin(props) {
     const [loggingOut, setLoggingOut] = useState();
+
+    // const { match } = props;
+    // let { id } = match.params;
 
     const logout = () => {
         setLoggingOut(true);
@@ -19,6 +22,16 @@ export default function UserLogin() {
         document.execCommand("copy");
         alert("Copied the text: " + copyText.value);
     }
+
+    const loginUser = () => {
+        console.log(props);
+
+        history.push(`/login?redirect=admin`);
+    }
+
+    useEffect(() => {
+        console.log(props);
+    }, []);
 
     return (
         <AuthenticationContext.Consumer>
@@ -52,7 +65,7 @@ export default function UserLogin() {
                         isAuthenticated && !isAuthenticated() && !loggingOut &&
                         <div className="flex flex-end align-center">
                             <div className="button-wrapper">
-                                <button onClick={() => { history.push(`/login?redirect=test`) }}>Login with Facebook</button>
+                                <button onClick={loginUser}>Login with Facebook</button>
                             </div>
                         </div>
                     }

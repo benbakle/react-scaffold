@@ -131,10 +131,10 @@ class AuthenticationService {
         this.log("User has logged out!")
     }
 
-    login = async (callback) => {
+    login = async (callback, redirectUrl) => {
         await this.FB.login();
         callback && callback();
-        history.push('/admin');
+        history.push(`/${redirectUrl}`);
         this.log("User has logged in!")
     }
 
@@ -144,7 +144,7 @@ class AuthenticationService {
         for (let i = 0; i < _ids.length; i++)
             if (_ids[i] === id)
                 return "admin";
-                
+
         return "standard"
     }
 
