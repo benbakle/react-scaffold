@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuthentication } from '../authentication/authentication-context';
 import history from '../services/history';
 import ScrollAnimation from 'react-animate-on-scroll';
-import InfiniteScroll from 'react-infinite-scroller';
+// import InfiniteScroll from 'react-infinite-scroller';
 
 export default function JYB() {
     const [_jyb, setJYB] = useState();

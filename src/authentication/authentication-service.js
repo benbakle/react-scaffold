@@ -1,6 +1,5 @@
 import * as Facebook from 'fb-sdk-wrapper';
 import LogDatShit from '../services/logger';
-import history from '../services/history';
 import { jyb_admin_ids, jyb_app_id, jyb_facebook_page_id } from './authentication-config.json';
 
 class AuthenticationService {
@@ -49,7 +48,6 @@ class AuthenticationService {
 
     async setStatus() {
         this.log("Getting current user status...")
-        localStorage.clear();
 
         const _status = await this.FB.getLoginStatus();
         localStorage.setItem("status", JSON.stringify(_status));
@@ -124,18 +122,16 @@ class AuthenticationService {
         return JSON.parse(localStorage.getItem("feed"));
     }
 
-    logout = async (callback) => {
+    logout = async () => {
         await this.FB.logout(this.token);
-        callback && callback();
-        console.log(callback)
+        localStorage.clear();
         window.location.href = '/';
         this.log("User has logged out!")
     }
 
-    login = async (callback) => {
+    login = async (redirect) => {
         await this.FB.login();
-        callback && callback();
-        window.location.href = './admin';
+        window.location.href = redirect;
         this.log("User has logged in!")
     }
 

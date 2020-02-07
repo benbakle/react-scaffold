@@ -1,16 +1,16 @@
+import React, { useEffect } from 'react';
 import { useAuthentication } from "./authentication-context";
-import React, { useEffect, useState } from 'react';
 import Loading from "../components/Loading/Loading";
 
 export default function Login(props) {
     const { login } = useAuthentication();
 
-    const _login = () => {
-        login && login();
-    }
+    useEffect(() => {
+        login("./admin");
+    }, [login])
+
     return (
         <>
-            {_login()}
             <Loading />
         </>
     )
