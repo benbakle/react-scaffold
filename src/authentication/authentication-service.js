@@ -127,14 +127,15 @@ class AuthenticationService {
     logout = async (callback) => {
         await this.FB.logout(this.token);
         callback && callback();
-        history.push('/');
+        console.log(callback)
+        window.location.href = '/';
         this.log("User has logged out!")
     }
 
-    login = async (callback, redirectUrl) => {
+    login = async (callback) => {
         await this.FB.login();
         callback && callback();
-        history.push(`/${redirectUrl}`);
+        window.location.href = './admin';
         this.log("User has logged in!")
     }
 

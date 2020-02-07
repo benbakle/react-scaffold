@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import AuthenticationContext from '../authentication-context';
+import React, { useState } from 'react';
+import { useAuthentication } from '../authentication-context';
 import history from '../../services/history';
 import Loading from '../../components/Loading/Loading';
 import './user-login.scss';
 
-export default function UserLogin(props) {
+export default function UserLogin() {
     const [loggingOut, setLoggingOut] = useState();
-
-    // const { match } = props;
-    // let { id } = match.params;
+    const { isAuthenticated, user } = useAuthentication();
 
     const logout = () => {
         setLoggingOut(true);
@@ -23,56 +21,42 @@ export default function UserLogin(props) {
         alert("Copied the text: " + copyText.value);
     }
 
-    const loginUser = () => {
-        console.log(props);
-
-        history.push(`/login?redirect=admin`);
-    }
-
-    useEffect(() => {
-        console.log(props);
-    }, []);
-
     return (
-        <AuthenticationContext.Consumer>
-            {({ isAuthenticated, user }) => (
-                <div className="user-login">
-                    {
-                        isAuthenticated && isAuthenticated() && !loggingOut &&
-                        <div className="flex flex-end align-center">
-                            <div className="user-details">
-                                <ul>
-                                    <li>{user().name}</li>
-                                    <li className="small">Role: {user().role === "admin" ? "Administrator" : "Super Fan"}</li>
-                                    <li><button className="small" onClick={copy}>Copy User ID</button></li>
-                                    <li><button className="small" onClick={logout}>logout</button></li>
-                                    <li>
-                                        <a href="https://developers.facebook.com/apps/211952919854909/dashboard/" target="blank">
-                                            JYB Facebook App Dashboard
+        <div className="user-login">
+            {
+                isAuthenticated && isAuthenticated() && !loggingOut &&
+                <div className="flex flex-end align-center">
+                    <div className="user-details">
+                        <ul>
+                            <li>{user().name}</li>
+                            <li className="small">Role: {user().role === "admin" ? "Administrator" : "Super Fan"}</li>
+                            <li><button className="small" onClick={copy}>Copy User ID</button></li>
+                            <li><button className="small" onClick={logout}>logout</button></li>
+                            <li>
+                                <a href="https://developers.facebook.com/apps/211952919854909/dashboard/" target="blank">
+                                    JYB Facebook App Dashboard
                                             </a>
-                                    </li>
-                                </ul>
+                            </li>
+                        </ul>
 
-                                {/* hidden input for copying */}
-                                <input id="userId" value={user().id} style={{ position: "fixed", top: "-100rem" }} onChange={() => { return }} />
+                        {/* hidden input for copying */}
+                        <input id="userId" value={user().id} style={{ position: "fixed", top: "-100rem" }} onChange={() => { return }} />
 
-                            </div>
+                    </div>
 
-                            <img src={user().picture} alt="user" />
-                        </div>
-                    }
-                    {
-                        isAuthenticated && !isAuthenticated() && !loggingOut &&
-                        <div className="flex flex-end align-center">
-                            <div className="button-wrapper">
-                                <button onClick={loginUser}>Login with Facebook</button>
-                            </div>
-                        </div>
-                    }
-                    {!isAuthenticated && <Loading />}
+                    <img src={user().picture} alt="user" />
                 </div>
-            )}
-        </AuthenticationContext.Consumer >
+            }
+            {
+                isAuthenticated && !isAuthenticated() && !loggingOut &&
+                <div className="flex flex-end align-center">
+                    <div className="button-wrapper">
+                        <button onClick={() => { history.push(`/login?redirect=test`) }}>Login with Facebook</button>
+                    </div>
+                </div>
+            }
+            {!isAuthenticated && <Loading />}
+        </div>
     )
 }
 

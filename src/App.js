@@ -4,7 +4,7 @@ import History from './services/history';
 import { ThemeContextProvider } from './theme/theme-context';
 import { ThemeToggle } from './theme/ThemeToggle/ThemeToggle';
 import UserLogin from './authentication/UserLogin/UserLogin';
-import AuthenticationContext from './authentication/authentication-context';
+import {AuthenticationContextProvider} from './authentication/authentication-context';
 import Login from './authentication/Login';
 import Logout from './authentication/Logout';
 import AuthenticatedRoute from './authentication/AuthenticatedRoute/AuthenticatedRoute';
@@ -16,7 +16,7 @@ export default function App() {
   return (
     <ThemeContextProvider>
       <ThemeWrapper>
-        <AuthenticationContext.Provider>
+        <AuthenticationContextProvider>
           <div className="container">
             <Router history={History}>
               <UserLogin />
@@ -29,7 +29,7 @@ export default function App() {
             </Router>
 
           </div>
-        </AuthenticationContext.Provider>
+        </AuthenticationContextProvider>
       </ThemeWrapper>
     </ThemeContextProvider>
   )

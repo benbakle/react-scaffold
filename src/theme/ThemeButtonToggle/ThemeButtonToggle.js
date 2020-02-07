@@ -5,6 +5,7 @@ export default function ThemeButtonToggle(props) {
     const [count, setCount] = useState(0);
     const { theme, toggleTheme } = useTheme();
 
+
     const checkToggle = () => {
         if (count >= 5)
             return window.location = 'https://www.youtube.com/watch?v=oHg5SJYRHA0';
