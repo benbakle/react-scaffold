@@ -1,27 +1,33 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import AuthenticatedRoute from './AuthenticatedRoute';
-import authenticationService from '../authentication-service';
-import { AuthenticationContextProvider } from '../authentication-context';
-import ReactTestUtils from 'react-dom/test-utils';
-import { act } from 'react-dom/test-utils';
-import ReactDOM from 'react-dom';
+import * as AuthenticationContext from '../authentication-context';
+import { Router, MemoryRouter } from 'react-router-dom';
 
 describe("The Authenticated Route component", () => {
   let _component;
 
-  beforeEach(() => {
-    spyOn(authenticationService, "load").and.stub();
-    _component = document.createElement('div');
-    document.body.appendChild(_component);
+  function FakeComp() {
+    return <span>Fake</span>
+  }
+
+  describe('The authenticated route component', () => {
+    it("exists", () => {
+      const authContext = { user: () => { return { role: "admin" } }, roles: ["admin"] };
+
+
+      jest
+        .spyOn(AuthenticationContext, "useAuthentication")
+        .mockImplementation(() => authContext);
+
+      _component = mount(
+        <MemoryRouter initialEntries={['/fake']}>
+          < AuthenticatedRoute path='/fake' component={FakeComp} roles={["admin"]} />
+        </MemoryRouter>);
+
+      expect(_component).toEqual("");
+
+    })
   });
 
-
-  it('exists', () => {
-    <AuthenticationContextProvider>
-      act(() => {<AuthenticatedRoute />},_component);
-    </AuthenticationContextProvider>;
-
-    expect(_component).toBeDefined();
-  });
 })

@@ -9,10 +9,12 @@ function AuthenticationContextProvider(props) {
     const [context, setContext] = useState();
 
     const refreshContext = async () => {
-        setLoadedTo(false);
-        let _loaded = await authenticationService.load();
-        setLoadedTo(_loaded);
-        setContext(authenticationService)
+        if (!props.value) {
+            setLoadedTo(false);
+            let _loaded = await authenticationService.load();
+            setLoadedTo(_loaded);
+        }
+        setContext(props.value || authenticationService)
     }
 
     useEffect(() => { refreshContext(); }, []);
