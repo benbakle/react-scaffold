@@ -6,7 +6,7 @@ import { ThemeToggle } from './theme/ThemeToggle/ThemeToggle';
 import UserLogin from './authentication/UserLogin/UserLogin';
 import {AuthenticationContextProvider} from './authentication/authentication-context';
 import Login from './authentication/Login';
-import Logout from './authentication/Logout';
+import Logout from './authentication/Logout/Logout';
 import AuthenticatedRoute from './authentication/AuthenticatedRoute/AuthenticatedRoute';
 import JYB from './components/JYB';
 import ThemeWrapper from './theme/ThemeWrapper/ThemeWrapper';

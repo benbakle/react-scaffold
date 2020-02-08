@@ -1,8 +1,12 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import AuthenticatedRoute from './AuthenticatedRoute';
-import * as AuthenticationContext from '../authentication-context';
-import { Router, MemoryRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import history from '../../services/history';
+import {AuthenticationContextProvider} from '../authentication-context';
+import authenticationService from '../authentication-service';
+import { act } from 'react-dom/test-utils';
+import { render } from 'react-dom';
 
 describe("The Authenticated Route component", () => {
   let _component;
@@ -20,10 +24,17 @@ describe("The Authenticated Route component", () => {
         .spyOn(AuthenticationContext, "useAuthentication")
         .mockImplementation(() => authContext);
 
-      _component = mount(
-        <MemoryRouter initialEntries={['/fake']}>
-          < AuthenticatedRoute path='/fake' component={FakeComp} roles={["admin"]} />
-        </MemoryRouter>);
+  xit('exist', () => {
+    <Router history={history}>
+      {
+        act(() => {
+          render(
+            <AuthenticationContextProvider>
+              <AuthenticatedRoute />
+            </AuthenticationContextProvider>, _component)
+        })
+      }
+    </Router>
 
       expect(_component).toEqual("");
 
