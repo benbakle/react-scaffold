@@ -32,20 +32,21 @@ label {
 }
 
 button {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 300;
+  border: 0.1rem solid white;
+  padding: .5rem 1rem;
   background-color: transparent;
-  border: 0.3rem solid;
-  padding: 1rem 2rem;
-  font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
-  margin: 3rem 0;
   transition-duration: 0.5s;
   border-radius: 0.2rem;
   cursor: pointer;
 
   @include theme(".theme-light") {
     color: #282c34;
-    border-color:  #282c34;
+    border-color: #282c34;
     background-color: white;
 
     @include states {
@@ -62,17 +63,16 @@ button {
 
     @include states {
       color: #282c34;
-      border-color:  #282c34;
+      border-color: #282c34;
       background-color: white;
     }
   }
 
-  &.small {
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: 300;
-    border: 0.1rem solid white;
-    padding: .5rem 1rem;
+  &.large {
+    margin: 3rem 0;
+    font-weight: 900;
+    border: 0.3rem solid;
+    padding: 1rem 2rem;
   }
 }
 

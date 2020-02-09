@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './user-login.scss';
-import { Login, Profile } from 'react-facebook';
+import { Login, Profile, Status } from 'react-facebook';
 import { jyb_admin_ids } from '../../authentication/authentication-config';
 
 export default function UserLogin() {
+
     const handleLoginResponse = (res) => { console.log(res) }
     const handleError = (error) => { console.log({ error }) }
 
@@ -30,43 +31,61 @@ export default function UserLogin() {
 
     return (
         <div className="user-login">
-            <Profile fields="id, first_name, last_name, middle_name, name_format, short_name, name, email, picture.width(800).height(800)">
-                {({ loading, profile }) => (
+            <Status>
+                {({ loading, status }) => (
                     <>
                         {
-                            !loading && profile &&
-                            <div className="flex flex-end align-center">
-                                <div className="user-details">
-                                    <ul>
-                                        <li>{profile.name}</li>
-                                        <li className="small">Role: {authorizedRole(profile.id) ? "Administrator" : "Super Fan"}</li>
-                                        <li><button className="small" onClick={copy}>Copy User ID</button></li>
+                            !loading &&
+                            <>
+                                {
+                                    status && status === "connected" &&
+                                    <Profile fields="id, first_name, last_name, middle_name, name_format, short_name, name, email, picture.width(800).height(800)">
+                                        {({ loading, profile }) => (
+                                            <>
+                                                {
+                                                    !loading &&
+                                                    <>
+                                                        {
+                                                            profile &&
+                                                            <div className="flex flex-end align-center">
+                                                                <div className="user-details">
+                                                                    <ul>
+                                                                        <li>{profile.name}</li>
+                                                                        <li className="small">Role: {authorizedRole(profile.id) ? "Administrator" : "Super Fan"}</li>
+                                                                        <li><button className="small" onClick={copy}>Copy User ID</button></li>
 
-                                        <li><button className="small" onClick={logout}>logout</button></li>
-                                        <li>
-                                            <a href="https://developers.facebook.com/apps/211952919854909/dashboard/" target="blank">
-                                                JYB Facebook App Dashboard
-                                                    </a>
-                                        </li>
-                                    </ul>
+                                                                        <li><button className="small" onClick={logout}>logout</button></li>
+                                                                        <li>
+                                                                            <a href="https://developers.facebook.com/apps/211952919854909/dashboard/" target="blank">
+                                                                                JYB Facebook App Dashboard
+                                                                </a>
+                                                                        </li>
+                                                                    </ul>
 
-                                    {/* hidden input for copying */}
-                                    <input id="userId" value={profile.id} style={{ position: "fixed", top: "-100rem" }} onChange={() => { return }} />
+                                                                    {/* hidden input for copying */}
+                                                                    <input id="userId" value={profile.id} style={{ position: "fixed", top: "-100rem" }} onChange={() => { return }} />
 
-                                </div>
-                                <img src={profile.picture.data.url} alt="user" />
-                            </div>
-                        }
-                        {
-                            !loading && !profile &&
-                            <div className="flex flex-end align-center">
-                                <div className="button-wrapper">
+                                                                </div>
+                                                                <img src={profile.picture.data.url} alt="user" />
+                                                            </div>
+                                                        }
+
+                                                    </>
+                                                }
+
+                                            </>
+
+                                        )}
+                                    </Profile>
+                                }
+                                {
+                                    status && status !== "connected" &&
                                     <Login scope="email" onCompleted={handleLoginResponse} onError={handleError}>
                                         {({ loading, handleClick, error, data }) => (
                                             <>
                                                 {
                                                     loading &&
-                                                    <span>Loading...</span>
+                                                    <i className="fas fa-spinner fa-spin"></i>
                                                 }
                                                 {
                                                     !loading &&
@@ -75,12 +94,17 @@ export default function UserLogin() {
                                             </>
                                         )}
                                     </Login>
-                                </div>
-                            </div>
+                                }
+                            </>
                         }
                     </>
-                )}
-            </Profile>
+                )
+
+                }
+            </Status>
+
+
         </div>
+
     )
 }

@@ -15,7 +15,7 @@ export default function ThemeButtonToggle(props) {
     }
 
     return (
-        <button className="theme-toggle-button" onClick={checkToggle}>
+        <button className="theme-toggle-button small" onClick={checkToggle}>
             <span>Toggle to </span>
             {
                 theme === "light" ?
