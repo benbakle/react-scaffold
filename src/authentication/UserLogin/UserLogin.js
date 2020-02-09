@@ -1,6 +1,7 @@
 import React from 'react';
 import './user-login.scss';
 import { Login, Profile } from 'react-facebook';
+import { jyb_admin_ids } from '../../authentication/authentication-config';
 
 export default function UserLogin() {
     const handleLoginResponse = (res) => { console.log(res) }
@@ -18,9 +19,18 @@ export default function UserLogin() {
         window.FB.logout();
     }
 
+    const authorizedRole = (id) => {
+        let _authorized;
+
+        for (let i = 0; i < jyb_admin_ids.length; i++)
+            _authorized = _authorized || (jyb_admin_ids[0] === id)
+
+        return _authorized;
+    }
+
     return (
         <div className="user-login">
-            <Profile>
+            <Profile fields="id, first_name, last_name, middle_name, name_format, short_name, name, email, picture.width(800).height(800)">
                 {({ loading, profile }) => (
                     <>
                         {
@@ -29,7 +39,7 @@ export default function UserLogin() {
                                 <div className="user-details">
                                     <ul>
                                         <li>{profile.name}</li>
-                                        <li className="small">Role: {profile.role === "admin" ? "Administrator" : "Super Fan"}</li>
+                                        <li className="small">Role: {authorizedRole(profile.id) ? "Administrator" : "Super Fan"}</li>
                                         <li><button className="small" onClick={copy}>Copy User ID</button></li>
 
                                         <li><button className="small" onClick={logout}>logout</button></li>

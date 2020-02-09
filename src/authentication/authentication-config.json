@@ -1,5 +1,8 @@
 {
     "jyb_app_id":"211952919854909",
     "jyb_facebook_page_id":"10157868078424144",
-    "jyb_admin_ids":["10157868078424144"]
+    "jyb_admin_ids":["10157868078424144"],
+    "messenger_app_id": "211952919854909",
+    "messenger_jyb_page_id":"178877948791879"
+
 }
