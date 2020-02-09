@@ -1,10 +1,9 @@
 import React from 'react';
 import { Route } from "react-router-dom";
-import { useAuthentication } from "../authentication-context";
+import { Profile } from 'react-facebook';
 
 export default function AuthenticatedRoute({ component: Component, roles, ...rest }) {
-    const { user } = useAuthentication();
-
+    let user;
     const authorizedRole = (role) => {
         let _authorized;
 
@@ -15,10 +14,19 @@ export default function AuthenticatedRoute({ component: Component, roles, ...res
     }
 
     return (
-        <Route {...rest} render={routeProps =>
-            (user && user() && authorizedRole(user().role)
-                ? <Component {...routeProps} />
-                : <span>Admin Only Message</span>
-            )} />
+        <Profile>
+            {({ loading, profile }) => (
+                <>
+                    {
+                        !loading &&
+                        <Route {...rest} render={routeProps =>
+                            (profile
+                                ? <Component {...routeProps} />
+                                : <span>Admin Only Message</span>
+                            )} />
+                    }
+                </>
+            )}
+        </Profile>
     );
 }

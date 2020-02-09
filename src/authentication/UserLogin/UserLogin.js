@@ -1,17 +1,10 @@
-import React, { useState } from 'react';
-import { useAuthentication } from '../authentication-context';
-import history from '../../services/history';
-import Loading from '../../components/Loading/Loading';
+import React from 'react';
 import './user-login.scss';
+import { Login, Profile } from 'react-facebook';
 
 export default function UserLogin() {
-    const [loggingOut, setLoggingOut] = useState();
-    const { isAuthenticated, user } = useAuthentication();
-
-    const logout = () => {
-        setLoggingOut(true);
-        history.push("/logout")
-    }
+    const handleLoginResponse = (res) => { console.log(res) }
+    const handleError = (error) => { console.log({ error }) }
 
     const copy = () => {
         var copyText = document.getElementById("userId");
@@ -21,42 +14,63 @@ export default function UserLogin() {
         alert("Copied the text: " + copyText.value);
     }
 
+    const logout = () => {
+        window.FB.logout();
+    }
+
     return (
         <div className="user-login">
-            {
-                isAuthenticated && isAuthenticated() && !loggingOut &&
-                <div className="flex flex-end align-center">
-                    <div className="user-details">
-                        <ul>
-                            <li>{user().name}</li>
-                            <li className="small">Role: {user().role === "admin" ? "Administrator" : "Super Fan"}</li>
-                            <li><button className="small" onClick={copy}>Copy User ID</button></li>
-                            <li><button className="small" onClick={logout}>logout</button></li>
-                            <li>
-                                <a href="https://developers.facebook.com/apps/211952919854909/dashboard/" target="blank">
-                                    JYB Facebook App Dashboard
-                                            </a>
-                            </li>
-                        </ul>
+            <Profile>
+                {({ loading, profile }) => (
+                    <>
+                        {
+                            !loading && profile &&
+                            <div className="flex flex-end align-center">
+                                <div className="user-details">
+                                    <ul>
+                                        <li>{profile.name}</li>
+                                        <li className="small">Role: {profile.role === "admin" ? "Administrator" : "Super Fan"}</li>
+                                        <li><button className="small" onClick={copy}>Copy User ID</button></li>
 
-                        {/* hidden input for copying */}
-                        <input id="userId" value={user().id} style={{ position: "fixed", top: "-100rem" }} onChange={() => { return }} />
+                                        <li><button className="small" onClick={logout}>logout</button></li>
+                                        <li>
+                                            <a href="https://developers.facebook.com/apps/211952919854909/dashboard/" target="blank">
+                                                JYB Facebook App Dashboard
+                                                    </a>
+                                        </li>
+                                    </ul>
 
-                    </div>
+                                    {/* hidden input for copying */}
+                                    <input id="userId" value={profile.id} style={{ position: "fixed", top: "-100rem" }} onChange={() => { return }} />
 
-                    <img src={user().picture} alt="user" />
-                </div>
-            }
-            {
-                isAuthenticated && !isAuthenticated() && !loggingOut &&
-                <div className="flex flex-end align-center">
-                    <div className="button-wrapper">
-                        <button onClick={() => { history.push(`/login?redirect=test`) }}>Login with Facebook</button>
-                    </div>
-                </div>
-            }
-            {!isAuthenticated && <Loading />}
+                                </div>
+                                <img src={profile.picture.data.url} alt="user" />
+                            </div>
+                        }
+                        {
+                            !loading && !profile &&
+                            <div className="flex flex-end align-center">
+                                <div className="button-wrapper">
+                                    <Login scope="email" onCompleted={handleLoginResponse} onError={handleError}>
+                                        {({ loading, handleClick, error, data }) => (
+                                            <>
+                                                {
+                                                    loading &&
+                                                    <span>Loading...</span>
+                                                }
+                                                {
+                                                    !loading &&
+                                                    <button onClick={handleClick}>Login with Facebook</button>
+                                                }
+                                            </>
+                                        )}
+                                    </Login>
+                                </div>
+                            </div>
+                        }
+                    </>
+                )}
+            </Profile>
         </div>
     )
 }
-
