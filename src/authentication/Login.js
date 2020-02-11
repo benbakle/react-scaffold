@@ -3,7 +3,7 @@ import React from 'react';
 import Loading from "../components/Loading/Loading";
 
 export default function Login(props) {
-    const { login, refreshContext } = useAuthentication();
+    const { login } = useAuthentication();
 
     const _login = () => {
         login && login();

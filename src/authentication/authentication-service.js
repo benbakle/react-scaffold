@@ -1,6 +1,5 @@
 import * as Facebook from 'fb-sdk-wrapper';
 import LogDatShit from '../services/logger';
-import history from '../services/history';
 import { jyb_admin_ids, jyb_app_id, jyb_facebook_page_id } from './authentication-config.json';
 
 class AuthenticationService {
@@ -29,7 +28,7 @@ class AuthenticationService {
         await asyncTryCatch(() => this.FB.load(), "Error loading the Facebook SDK.");
         await asyncTryCatch(() => this.init(), "Error initializing the the JYB Facebook App.");
 
-        this.log("Successfully loaded Facebook SDK v5.0")
+        this.log("Successfully loaded Facebook SDK v6.0")
     }
 
     async init() {
@@ -40,7 +39,7 @@ class AuthenticationService {
             autoLogAppEvents: true,
             xfbml: true,
             cookie: true,
-            version: 'v5.0',
+            version: 'v6.0',
             status: true,
         });
 
