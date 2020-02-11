@@ -12,11 +12,11 @@ class AuthenticationService {
 
         await asyncTryCatch(() => this.setStatus(), "Error getting the current user's status.");
 
-        if (this.status().status === "connected")
+        if (this.isAuthenticated())
             await asyncTryCatch(() => this.setUser(), "Error getting the current users details.");
 
         await asyncTryCatch(() => this.setJYB(), "Error getting JYB details.");
-        await asyncTryCatch(() => this.setFeed(), "Error getting JYB news feed.");
+        // await asyncTryCatch(() => this.setFeed(), "Error getting JYB news feed.");
 
         return true
     }
@@ -51,7 +51,7 @@ class AuthenticationService {
         localStorage.clear();
 
         const _status = await this.FB.getLoginStatus();
-        localStorage.setItem("status", JSON.stringify(_status));
+        // localStorage.setItem("status", JSON.stringify(_status));
 
         this.log(`User has status of ${_status.status}`)
     }
@@ -95,14 +95,8 @@ class AuthenticationService {
     }
 
     isAuthenticated = () => {
-        const _status = JSON.parse(localStorage.getItem("status"));
-        const token = _status && _status.authResponse && _status.authResponse.accessToken;
-        return !!token;
+        return !!window.FB.getAccessToken();
     };
-
-    status = () => {
-        return JSON.parse(localStorage.getItem("status"));
-    }
 
     user = () => {
         let _user = JSON.parse(localStorage.getItem("user"));

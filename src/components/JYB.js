@@ -7,7 +7,7 @@ import ScrollAnimation from 'react-animate-on-scroll';
 export default function JYB() {
     const [_jyb, setJYB] = useState();
     const [_feed, setFeed] = useState();
-    const { feed, jyb } = useAuthentication();
+    const { feed, jyb, isAuthenticated } = useAuthentication();
 
     useEffect(() => {
         setFeed(feed);
@@ -17,7 +17,7 @@ export default function JYB() {
     return (
         <>
             {
-                _jyb &&
+                _jyb && isAuthenticated() &&
                 <>
                     <button onClick={() => { history.push("/admin2") }}>Admin 2</button>
                     <div className="heading">Logo</div>
