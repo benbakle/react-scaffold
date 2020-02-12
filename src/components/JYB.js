@@ -17,7 +17,7 @@ export default function JYB() {
     return (
         <>
             {
-                _jyb && isAuthenticated() &&
+                _jyb && 
                 <>
                     <button onClick={() => { history.push("/admin2") }}>Admin 2</button>
                     <div className="heading">Logo</div>

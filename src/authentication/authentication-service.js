@@ -1,6 +1,6 @@
 import * as Facebook from 'fb-sdk-wrapper';
 import LogDatShit from '../services/logger';
-import { jyb_admin_ids, jyb_app_id, jyb_facebook_page_id, jyb_app_secret } from './authentication-config.json';
+import { jyb_admin_ids, jyb_app_id, jyb_page_id, jyb_app_secret } from './authentication-config.json';
 
 class AuthenticationService {
     log = LogDatShit.log;
@@ -68,23 +68,24 @@ class AuthenticationService {
     }
 
     async setJYB() {
-        if (!this.isAuthenticated() || this.user().role !== "admin")
-            return;
+        // if (!this.isAuthenticated() || this.user().role !== "admin")
+        //     return;
 
         this.log("#### OHHH! AREN'T YOU SPECIAL... YOU GET ADMIN PRIVILAGES!!! ####");
         this.log("Getting Joel Young Band details...");
 
         // "https://graph.facebook.com/{api-endpoint}&access_token={your-app_id}|{your-app_secret}"  
 
-        const _accounts = await this.FB.api(`https://graph.facebook.com/${jyb_facebook_page_id}/accounts?access_token=${jyb_app_id}|${jyb_app_secret}`);
+        // const _accounts = await this.FB.api(`/${jyb_page_id}/accounts`);
 
-        console.log(_accounts);
-
-        // const _accounts = await this.FB.api(`/${jyb_facebook_page_id}/accounts`);
         const fields = "about, attire, bio, location, parking, hours, emails, website, picture.width(800).height(800)";
-        const _jyb = await this.FB.api(`/${_accounts.data[0].id}`, 'GET', { fields });
-        localStorage.setItem("jyb", JSON.stringify(_jyb));
+        // const _jyb = await this.FB.api(`/${_accounts.data[0].id}`, 'GET', { fields });
 
+        const _jyb = await this.FB.api(`${jyb_page_id}/accounts?access_token=${jyb_app_id}|${jyb_app_secret}&grant_type=client_credentials`);
+        // const _jyb = await this.FB.api(`${jyb_page_id}/accounts?access_token=${jyb_app_id}|${jyb_app_secret}&grant_type=client_credentials`, 'GET', { fields });
+
+        console.log(_jyb)
+        localStorage.setItem("jyb", JSON.stringify(_jyb));
         this.log("Rock 'n Roll! Aquired Joel Young Band details!");
     }
 
